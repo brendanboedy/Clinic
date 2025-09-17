@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/brendanboedy/Library/Mobile Documents/com~apple~CloudDocs/COP4870/Proj1_Doctors/assignmentOne_COP4870/CLI.Clinic.csproj",
-      "projectName": "CLI.Clinic",
-      "projectPath": "/Users/brendanboedy/Library/Mobile Documents/com~apple~CloudDocs/COP4870/Proj1_Doctors/assignmentOne_COP4870/CLI.Clinic.csproj",
+      "projectUniqueName": "/Users/brendanboedy/Library/Mobile Documents/com~apple~CloudDocs/COP4870/Proj1_Doctors/Clinic.CLI/Clinic.CLI.csproj",
+      "projectName": "Clinic.CLI",
+      "projectPath": "/Users/brendanboedy/Library/Mobile Documents/com~apple~CloudDocs/COP4870/Proj1_Doctors/Clinic.CLI/Clinic.CLI.csproj",
       "packagesPath": "/Users/brendanboedy/.nuget/packages/",
-      "outputPath": "/Users/brendanboedy/Library/Mobile Documents/com~apple~CloudDocs/COP4870/Proj1_Doctors/assignmentOne_COP4870/obj/",
+      "outputPath": "/Users/brendanboedy/Library/Mobile Documents/com~apple~CloudDocs/COP4870/Proj1_Doctors/Clinic.CLI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/brendanboedy/.nuget/NuGet/NuGet.Config"

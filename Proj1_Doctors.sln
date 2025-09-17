@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLI.Clinic", "assignmentOne_COP4870\CLI.Clinic.csproj", "{82F799BB-6441-45BD-AF87-9AE509DABA9C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Library", "Clinic.Library\Clinic.Library.csproj", "{2B7A3D19-EA02-45A8-9404-15815E1F5B80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.CLI", "Clinic.CLI\Clinic.CLI.csproj", "{A24CF164-1B6E-48C2-9491-32AAD45A6652}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{82F799BB-6441-45BD-AF87-9AE509DABA9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82F799BB-6441-45BD-AF87-9AE509DABA9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82F799BB-6441-45BD-AF87-9AE509DABA9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82F799BB-6441-45BD-AF87-9AE509DABA9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B7A3D19-EA02-45A8-9404-15815E1F5B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B7A3D19-EA02-45A8-9404-15815E1F5B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B7A3D19-EA02-45A8-9404-15815E1F5B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B7A3D19-EA02-45A8-9404-15815E1F5B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
