@@ -1,4 +1,5 @@
 ﻿using Clinic.Library.Models;
+using Clinic.Library.Services;
 using Microsoft.VisualBasic.FileIO;
 namespace assignmentOne_COP4870;
 
@@ -7,8 +8,8 @@ class Program
     static void Main(string[] args)
     {
         //Lists for each created patient, physician, and appointment
-        List<Patient> patients = new List<Patient>();
-        List<Physician> physicians = new List<Physician>();
+        List<Patient> patients = PatientServiceProxy.Current.PatientList;
+        List<Physician> physicians = PhysicianServiceProxy.Current.PhysicianList;
         List<Appointment> appointments = new List<Appointment>();
 
         //main menu loop for user input
@@ -47,27 +48,14 @@ class Program
                     Console.WriteLine("Enter Patient Birth Date (yyyy-mm-dd):");
                     DateTime birthDate;
                     //check to make sure date format is correct/accepted
-                    while (!DateTime.TryParse(Console.ReadLine(), out birthDate))
+                    if (DateTime.TryParse(Console.ReadLine(), out birthDate))
                     {
-                        //have user re enter birth date if format is incorrect
-                        Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
+                        //create and add patient
+                        Patient newPatient = new Patient(name, birthDate);
+                        PatientServiceProxy.Current.Add(newPatient);
+                        Console.WriteLine("Patient created successfully.");
                     }
-                    //create new patient
-                    Patient newPatient = new Patient(name, birthDate);
-
-                    //update ID for new patient
-                    var maxID = -1;
-                    if (patients.Any()) //check to make sure list not empty
-                    {
-                        maxID = patients.Select(p => p?.ID ?? -1).Max();
-                    }
-                    else
-                    {
-                        maxID = 0;
-                    }
-                    newPatient.ID = ++maxID;
-                    patients.Add(newPatient);
-                    Console.WriteLine("Patient created successfully.");
+                    
                     break;
                 //update patient
                 case "UP":
@@ -79,6 +67,7 @@ class Program
                         Patient patientToUpdate = patients.First(p => p.ID == patientID);
                         //call method to update patient information
                         UpdatePatientMenu(patientToUpdate);
+                        Console.WriteLine("Patient updated successfully.");
                     }
                     else
                     {
@@ -92,7 +81,7 @@ class Program
                     {
                         Console.WriteLine("\nPerforming Patient Deletetion:");
                         int patientID = getPatientID(patients);
-                        patients.Remove(patients.First(p => p.ID == patientID));
+                        PatientServiceProxy.Current.Delete(patientID);
                         Console.WriteLine("Patient deleted successfully.");
                     }
                     else
@@ -107,25 +96,13 @@ class Program
                     Console.WriteLine("Enter Physician License Number:");
                     int licenseNumber;
                     //check to make sure license number is valid integer
-                    while (!int.TryParse(Console.ReadLine(), out licenseNumber))
+                    if (int.TryParse(Console.ReadLine(), out licenseNumber))
                     {
-                        //license number must be valid integer
-                        Console.WriteLine("Invalid License Number. Please enter a valid Integer:");
+                        //create and add physician
+                        Physician newPhysician = new Physician(phyName, licenseNumber);
+                        PhysicianServiceProxy.Current.Add(newPhysician);
+                        Console.WriteLine("Physician created successfully.");
                     }
-                    Physician newPhysician = new Physician(phyName, licenseNumber);
-                    //update ID for new physician
-                    var maxPhyID = -1;
-                    if (physicians.Any()) //check to make sure list not empty
-                    {
-                        maxPhyID = physicians.Select(p => p?.ID ?? -1).Max();
-                    }
-                    else
-                    {
-                        maxPhyID = 0;
-                    }
-                    newPhysician.ID = ++maxPhyID;
-                    physicians.Add(newPhysician);
-                    Console.WriteLine("Physician created successfully.");
                     break;
                 //update physician
                 case "UPH":
@@ -156,7 +133,7 @@ class Program
                         Console.WriteLine("\nPerforming Physician Deletetion:");
                         //get physician ID to delete
                         int physicianID = getPhysicianID(physicians);
-                        physicians.Remove(physicians.First(phy => phy.ID == physicianID));
+                        PhysicianServiceProxy.Current.Delete(physicianID);
                         Console.WriteLine("Physician deleted successfully.");
                     }
                     else
@@ -297,10 +274,7 @@ class Program
                     if (patients.Any())
                     {
                         Console.WriteLine("\nListing All Patients:");
-                        foreach (var patient in patients)
-                        {
-                            Console.WriteLine(patient);
-                        }
+                        PatientServiceProxy.Current.PatientList.ForEach(p => Console.WriteLine(p));
                     }
                     else
                     {
@@ -408,10 +382,7 @@ class Program
     private static int getPatientID(List<Patient> patients)
     {
         Console.WriteLine("\nListing Current Patients:");
-        foreach (var patient in patients)
-        {
-            Console.WriteLine($"{patient.ID}. {patient.Name}");
-        }
+        PatientServiceProxy.Current.PatientList.ForEach(p => Console.WriteLine($"{p.ID}. {p.Name}"));
         Console.WriteLine("\nEnter Patient ID:");
         int patientID;
         //check to make sure user input is valid
@@ -426,10 +397,7 @@ class Program
     private static int getPhysicianID(List<Physician> physicians)
     {
         Console.WriteLine("\nListing Current Physicians:");
-        foreach (var physician in physicians)
-        {
-            Console.WriteLine($"{physician.ID}. {physician.Name}");
-        }
+        PhysicianServiceProxy.Current.PhysicianList.ForEach(p => Console.WriteLine($"{p.ID}. {p.Name}"));
         Console.WriteLine("\nEnter Physician ID:");
         int physicianID;
         //check to make sure user input is valid

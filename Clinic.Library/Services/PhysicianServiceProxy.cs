@@ -1,0 +1,73 @@
+using System;
+using Clinic.Library.Models;
+
+namespace Clinic.Library.Services;
+
+public class PhysicianServiceProxy
+{
+    private List<Physician> physicianList;
+    private PhysicianServiceProxy()
+    {
+        physicianList = new List<Physician>();
+    }
+
+    private static PhysicianServiceProxy? instance;
+    private static object instanceLock = new object();
+    public static PhysicianServiceProxy Current
+    {
+        get
+        {
+            lock (instanceLock)
+            {
+                if (instance == null)
+                {
+                    instance = new PhysicianServiceProxy();
+                }
+                return instance;
+            }
+        }
+    }
+
+    public List<Physician> PhysicianList
+    {
+        get { return physicianList; }
+    }
+
+    public Physician? Add(Physician physician)
+    {
+        //make sure physician not null
+        if (physician == null)
+        {
+            return null;
+        }
+
+        //assign ID
+        if (physician.ID <= 0)
+        {
+            //adding new physician
+            int maxID = -1;
+            if (physicianList.Any())
+            {
+                maxID = physicianList.Select(p => p?.ID ?? -1).Max();
+            }
+            else
+            {
+                maxID = 0;
+            }
+            physician.ID = ++maxID;
+            physicianList.Add(physician);
+        }
+        
+        return physician;
+    }
+
+    public Physician? Delete(int physicianID)
+    {
+        var existingPhysician = physicianList.FirstOrDefault(p => p.ID == physicianID);
+        if (existingPhysician == null) { return null; }
+        
+        //remove physician from list
+        physicianList.Remove(existingPhysician);
+        return existingPhysician;
+    }
+}
