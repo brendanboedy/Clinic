@@ -15,7 +15,7 @@ public class Appointment
     public override string ToString()
     {
         return $"{ID}. {AppointmentDate} - Patient ID: {PatientID}, Physician ID: {PhysicianID}\n" +
-            $"Start Time: {AppointmentStartTime}, End Time: {AppointmentEndTime}";
+            $"Start Time: {AppointmentStartTime}, End Time: {AppointmentEndTime}\n";
     }
 
     //Constructor

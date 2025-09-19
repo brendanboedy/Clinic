@@ -10,7 +10,7 @@ class Program
         //Lists for each created patient, physician, and appointment
         List<Patient> patients = PatientServiceProxy.Current.PatientList;
         List<Physician> physicians = PhysicianServiceProxy.Current.PhysicianList;
-        List<Appointment> appointments = new List<Appointment>();
+        List<Appointment> appointments = AppointmentServiceProxy.Current.AppointmentList;
 
         //main menu loop for user input
         bool cont = true;
@@ -55,12 +55,12 @@ class Program
                         PatientServiceProxy.Current.Add(newPatient);
                         Console.WriteLine("Patient created successfully.");
                     }
-                    
+
                     break;
                 //update patient
                 case "UP":
                     //check to make sure patients exist to update
-                    if (patients.Any())
+                    if (!patients.Any())
                     {
                         Console.WriteLine("\nPerforming Patient Update:");
                         int patientID = getPatientID(patients);
@@ -149,43 +149,11 @@ class Program
 
                         //obtain appt date
                         Console.WriteLine("Enter Appointment Date (yyyy-mm-dd):");
-                        DateOnly appointmentDate;
-                        //check to make sure date format is correct/accepted
-                        while (!DateOnly.TryParse(Console.ReadLine(), out appointmentDate))
-                        {
-                            //have user re enter appointment date if format is incorrect
-                            Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
-                        }
-                        //check to make sure date is M-F
-                        while (appointmentDate.DayOfWeek == DayOfWeek.Saturday || appointmentDate.DayOfWeek == DayOfWeek.Sunday)
-                        {
-                            Console.WriteLine("Appointments can only be scheduled Monday through Friday. Please enter a valid date:");
-                            while (!DateOnly.TryParse(Console.ReadLine(), out appointmentDate))
-                            {
-                                //have user re enter appointment date if format is incorrect
-                                Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
-                            }
-                        }
+                        DateOnly apptDate = getAppointmentDate();
 
                         //obtain appt start time
                         Console.WriteLine("Enter Appointment Start Time (HH:MM, 24-hour format):");
-                        TimeOnly appointmentStartTime;
-                        //check to make sure time format is correct
-                        while (!TimeOnly.TryParse(Console.ReadLine(), out appointmentStartTime))
-                        {
-                            //have user re enter appointment start time if format is incorrect
-                            Console.WriteLine("Invalid time format. Please enter the time in HH:MM, 24-hour format:");
-                        }
-                        //check to make sure time is within business hours 8am-5pm
-                        while (!(appointmentStartTime.Hour >= 8 && appointmentStartTime.Hour < 17))
-                        {
-                            Console.WriteLine("Appointments can only be scheduled between 8:00 and 17:00. Please enter a valid time:");
-                            while (!TimeOnly.TryParse(Console.ReadLine(), out appointmentStartTime))
-                            {
-                                //have user re enter appointment start time if format is incorrect
-                                Console.WriteLine("Invalid time format. Please enter the time in HH:MM, 24-hour format:");
-                            }
-                        }
+                        TimeOnly apptStartTime = getAppointmentStartTime();
 
                         //grab patient and physician IDs for appointment creation
                         Console.WriteLine("Select Physician for Appointment:");
@@ -195,21 +163,11 @@ class Program
                         int patientID = getPatientID(patients);
 
                         //check to make sure physician does not have another appointment at the same time
-                        Appointment tempAppointment = new Appointment(appointmentDate, appointmentStartTime, patientID, physicianID);
-                        if (noOtherAppointments(appointments, tempAppointment))
+                        Appointment tempAppt = new Appointment(apptDate, apptStartTime, patientID, physicianID);
+                        if (noOtherAppointments(appointments, tempAppt))
                         {
-                            //create ID for current appointment
-                            var maxApptID = -1;
-                            if (appointments.Any()) //check to make sure list not empty
-                            {
-                                maxApptID = appointments.Select(a => a?.ID ?? -1).Max();
-                            }
-                            else
-                            {
-                                maxApptID = 0;
-                            }
-                            tempAppointment.ID = ++maxApptID;
-                            appointments.Add(tempAppointment);
+                            //add appointment to list
+                            AppointmentServiceProxy.Current.Add(tempAppt);
                             Console.WriteLine("Appointment created successfully.");
                         }
                         else
@@ -227,19 +185,10 @@ class Program
                     //update appointment
                     if (appointments.Any())
                     {
-                        foreach (var appointment in appointments)
-                        {
-                            Console.WriteLine(appointment);
-                        }
-                        Console.WriteLine("\nEnter Appointment ID to Update:");
-                        int appointmentID;
-                        //check to make sure user input is valid
-                        while (!int.TryParse(Console.ReadLine(), out appointmentID) || !appointments.Any(a => a.ID == appointmentID))
-                        {
-                            Console.WriteLine("Invalid Appointment ID. Please enter a valid Appointment ID:");
-                        }
-                        Appointment appointmentToUpdate = appointments.First(a => a.ID == appointmentID);
-                        UpdateAppointmentMenu(appointments, appointmentToUpdate);
+                        Console.WriteLine("\nPerforming Appointment Update:");
+                        int apptID = getApptID(appointments);
+                        Appointment apptToUpdate = appointments.First(a => a.ID == apptID);
+                        UpdateAppointmentMenu(appointments, apptToUpdate);
                     }
                     else
                     {
@@ -250,18 +199,9 @@ class Program
                 case "DA":
                     if (appointments.Any())
                     {
-                        foreach (var appointment in appointments)
-                        {
-                            Console.WriteLine(appointment);
-                        }
-                        Console.WriteLine("\nEnter Appointment ID to Delete:");
-                        int appointmentID;
-                        //check to make sure user input is valid
-                        while (!int.TryParse(Console.ReadLine(), out appointmentID) || !appointments.Any(a => a.ID == appointmentID))
-                        {
-                            Console.WriteLine("Invalid Appointment ID. Please enter a valid Appointment ID:");
-                        }
-                        appointments.Remove(appointments.First(a => a.ID == appointmentID));
+                        Console.WriteLine("\nPerforming Appointment Deletion:");
+                        int apptID = getApptID(appointments);
+                        AppointmentServiceProxy.Current.Delete(apptID);
                         Console.WriteLine("Appointment deleted successfully.");
                     }
                     else
@@ -409,22 +349,22 @@ class Program
     }
 
     //method to check if physician has another appointment at the same time
-    private static bool noOtherAppointments(List<Appointment> appointments, Appointment newAppointment)
+    private static bool noOtherAppointments(List<Appointment> appointments, Appointment newAppt)
     {
         //check to see if any other appointments exist on the same date
         foreach (var appointment in appointments)
         {
             //if updating appointment, skip check against itself
-            if (appointment.ID == newAppointment.ID)
+            if (appointment.ID == newAppt.ID)
             {
                 continue;
             }
-            if (appointment.AppointmentDate == newAppointment.AppointmentDate)
+            if (appointment.AppointmentDate == newAppt.AppointmentDate)
             {
                 //new appointment on same date as existing appointment
                 //check to see if new appointment start time is between existing appointment start and end time
                 //and if the physician IDs are the same
-                if (conflicting(appointment, newAppointment))
+                if (conflicting(appointment, newAppt))
                 {
                     //conflicting appt
                     return false;
@@ -435,72 +375,100 @@ class Program
         return true;
     }
     //returns true if the appointments are conflicting - helper function for noOtherAppointments
-    private static bool conflicting(Appointment otherAppointment, Appointment newAppointment)
+    private static bool conflicting(Appointment otherAppointment, Appointment newAppt)
     {
         //Astart < Bend && Bstart < Aend
-        if (newAppointment.PhysicianID == otherAppointment.PhysicianID
-            && newAppointment.AppointmentStartTime <= otherAppointment.AppointmentEndTime
-            && otherAppointment.AppointmentStartTime <= newAppointment.AppointmentEndTime)
+        if (newAppt.PhysicianID == otherAppointment.PhysicianID
+            && newAppt.AppointmentStartTime <= otherAppointment.AppointmentEndTime
+            && otherAppointment.AppointmentStartTime <= newAppt.AppointmentEndTime)
         {
             return true;
         }
         return false;
     }
-    private static void UpdateAppointmentMenu(List<Appointment> appointments, Appointment appointmentToUpdate)
+    private static void UpdateAppointmentMenu(List<Appointment> appointments, Appointment apptToUpdate)
     {
+        //obtain appt date
         Console.WriteLine("Enter new Appointment Date (yyyy-mm-dd):");
-        DateOnly newAppointmentDate;
-        //check to make sure date format is correct/accepted
-        while (!DateOnly.TryParse(Console.ReadLine(), out newAppointmentDate))
-        {
-            //have user re enter appointment date if format is incorrect
-            Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
-        }
-        //check to make sure date is M-F
-        while (newAppointmentDate.DayOfWeek == DayOfWeek.Saturday || newAppointmentDate.DayOfWeek == DayOfWeek.Sunday)
-        {
-            Console.WriteLine("Appointments can only be scheduled Monday through Friday. Please enter a valid date:");
-            while (!DateOnly.TryParse(Console.ReadLine(), out newAppointmentDate))
-            {
-                //have user re enter appointment date if format is incorrect
-                Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
-            }
-        }
+        DateOnly newAppointmentDate = getAppointmentDate();
         //obtain appt start time
         Console.WriteLine("Enter new Appointment Start Time (HH:MM, 24-hour format):");
-        TimeOnly newAppointmentStartTime;
-        //check to make sure time format is correct
-        while (!TimeOnly.TryParse(Console.ReadLine(), out newAppointmentStartTime))
-        {
-            //have user re enter appointment start time if format is incorrect
-            Console.WriteLine("Invalid time format. Please enter the time in HH:MM, 24-hour format:");
-        }
-        //check to make sure time is within business hours 8am-5pm
-        while (!(newAppointmentStartTime.Hour >= 8 && newAppointmentStartTime.Hour < 17))
-        {
-            Console.WriteLine("Appointments can only be scheduled between 8:00 and 17:00. Please enter a valid time:");
-            while (!TimeOnly.TryParse(Console.ReadLine(), out newAppointmentStartTime))
-            {
-                //have user re enter appointment start time if format is incorrect
-                Console.WriteLine("Invalid time format. Please enter the time in HH:MM, 24-hour format:");
-            }
-        }
+        TimeOnly newAppointmentStartTime = getAppointmentStartTime();
+
         //create temp appointment to check for conflicts before updating appointmentToUpdate
-        Appointment appointmentToCheck = new Appointment(newAppointmentDate, newAppointmentStartTime, appointmentToUpdate.PatientID, appointmentToUpdate.PhysicianID)
+        Appointment appointmentToCheck = new Appointment(newAppointmentDate, newAppointmentStartTime, apptToUpdate.PatientID, apptToUpdate.PhysicianID)
         {
-            ID = appointmentToUpdate.ID
+            ID = apptToUpdate.ID
         };
+
         //check to make sure physician does not have another appointment at the same time
         if (noOtherAppointments(appointments, appointmentToCheck))
         {
-            appointmentToUpdate.AppointmentDate = newAppointmentDate;
-            appointmentToUpdate.AppointmentStartTime = newAppointmentStartTime;
-            appointmentToUpdate.AppointmentEndTime = newAppointmentStartTime.AddHours(1); //Default to 1 hour appointments
+            apptToUpdate.AppointmentDate = newAppointmentDate;
+            apptToUpdate.AppointmentStartTime = newAppointmentStartTime;
+            apptToUpdate.AppointmentEndTime = newAppointmentStartTime.AddHours(1); //Default to 1 hour appointments
             Console.WriteLine("Appointment updated successfully.");
         }
         else
         {
             Console.WriteLine("The selected physician has another appointment at the chosen time. Please select a different time or physician.");
         }
+    }
+
+    private static DateOnly getAppointmentDate()
+    {
+        DateOnly appointmentDate;
+        //check to make sure date format is correct/accepted
+        while (!DateOnly.TryParse(Console.ReadLine(), out appointmentDate))
+        {
+            //have user re enter appointment date if format is incorrect
+            Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
+        }
+        //check to make sure date is M-F
+        while (appointmentDate.DayOfWeek == DayOfWeek.Saturday || appointmentDate.DayOfWeek == DayOfWeek.Sunday)
+        {
+            Console.WriteLine("Appointments can only be scheduled Monday through Friday. Please enter a valid date:");
+            while (!DateOnly.TryParse(Console.ReadLine(), out appointmentDate))
+            {
+                //have user re enter appointment date if format is incorrect
+                Console.WriteLine("Invalid date format. Please enter the date in yyyy-mm-dd format:");
+            }
+        }
+        return appointmentDate;
+    }
+
+    private static TimeOnly getAppointmentStartTime()
+    {
+        TimeOnly appointmentStartTime;
+        //check to make sure time format is correct
+        while (!TimeOnly.TryParse(Console.ReadLine(), out appointmentStartTime))
+        {
+            //have user re enter appointment start time if format is incorrect
+            Console.WriteLine("Invalid time format. Please enter the time in HH:MM, 24-hour format:");
+        }
+        //check to make sure time is within business hours 8am-5pm
+        while (!(appointmentStartTime.Hour >= 8 && appointmentStartTime.Hour < 17))
+        {
+            Console.WriteLine("Appointments can only be scheduled between 8:00 and 17:00. Please enter a valid time:");
+            while (!TimeOnly.TryParse(Console.ReadLine(), out appointmentStartTime))
+            {
+                //have user re enter appointment start time if format is incorrect
+                Console.WriteLine("Invalid time format. Please enter the time in HH:MM, 24-hour format:");
+            }
+        }
+        return appointmentStartTime;
+    }
+
+    private static int getApptID(List<Appointment> appointments)
+    {
+        Console.WriteLine("\nListing Current Appointments:");
+        AppointmentServiceProxy.Current.AppointmentList.ForEach(a => Console.WriteLine(a));
+        Console.WriteLine("\nEnter Appointment ID:");
+        int apptID;
+        while (!int.TryParse(Console.ReadLine(), out apptID) || !appointments.Any(a => a.ID == apptID))
+        {
+            Console.WriteLine("Invalid Appointment ID. Please enter a valid Appointment ID:");
+        }
+        return apptID;
     }
 }

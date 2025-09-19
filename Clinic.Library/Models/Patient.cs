@@ -18,10 +18,10 @@ public class Patient
     {
         //Only display properties that have values
         string thePatient = $"{ID}. {Name} - DOB: {DateOfBirth:MM/dd/yyyy}"
-            + (Address != null ? $"\n\tAddress: {Address}\n" : "")
-            + (Race != null ? $"\tRace: {Race}" : "")
-            + (Gender != null ? $", Gender: {Gender}\n" : "")
-            + (Notes != null ? $"\tNotes: {Notes}\n" : "");
+            + (Address != null ? $"\n\tAddress: {Address}" : "")
+            + (Race != null ? $"\n\tRace: {Race}" : "")
+            + (Gender != null ? $"\n\tGender: {Gender}" : "")
+            + (Notes != null ? $"\n\tNotes: {Notes}\n" : "");
         return thePatient;
     }
 
