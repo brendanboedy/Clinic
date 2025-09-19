@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Library", "Clinic.Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.CLI", "Clinic.CLI\Clinic.CLI.csproj", "{A24CF164-1B6E-48C2-9491-32AAD45A6652}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Maui", "Clinic.Maui\Clinic.Maui.csproj", "{C5429EE0-FA91-420C-B556-52C95129583F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A24CF164-1B6E-48C2-9491-32AAD45A6652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5429EE0-FA91-420C-B556-52C95129583F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5429EE0-FA91-420C-B556-52C95129583F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5429EE0-FA91-420C-B556-52C95129583F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5429EE0-FA91-420C-B556-52C95129583F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
