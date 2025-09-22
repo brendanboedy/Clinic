@@ -21,6 +21,9 @@ public class Appointment
     //Constructor
     public Appointment(DateOnly appointmentDate, TimeOnly appointmentStartTime, int patientId, int physicianId)
     {
+        //temp ID for testing UI
+        ID = -1;
+        //need to remove ID assignment when done with UI testing
         AppointmentDate = appointmentDate;
         AppointmentStartTime = appointmentStartTime;
         AppointmentEndTime = appointmentStartTime.AddHours(1); //Default to 1 hour appointments

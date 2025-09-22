@@ -63,7 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ViewModels/" />
+	  <ProjectReference Include="../Clinic.Library/Clinic.Library.csproj" />
 	</ItemGroup>
 
 </Project>
