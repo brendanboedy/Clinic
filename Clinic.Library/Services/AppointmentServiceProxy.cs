@@ -6,11 +6,17 @@ namespace Clinic.Library.Services;
 public class AppointmentServiceProxy
 {
     //list to hold appointments in memory
-    private List<Appointment> appointmentList;
+    public List<Appointment> appointmentList { get; set; }
+
+    //access to patient and physician service proxy
+    //private PatientServiceProxy _patientSvc;
+    //private PhysicianServiceProxy _physicianSvc;
 
     //private proxy constructor
     private AppointmentServiceProxy()
     {
+        //_patientSvc = PatientServiceProxy.Current;
+        //_physicianSvc = PhysicianServiceProxy.Current;
         appointmentList = new List<Appointment>();
     }
 
@@ -77,5 +83,14 @@ public class AppointmentServiceProxy
         //remove appointment from list
         appointmentList.Remove(existingAppointment);
         return existingAppointment;
+    }
+
+    public Appointment? GetByID(int ID)
+    {
+        if (ID <= 0)
+        {
+            return null;
+        }
+        return appointmentList.FirstOrDefault(a => a.ID == ID);
     }
 }

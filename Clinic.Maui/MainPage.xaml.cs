@@ -13,5 +13,17 @@ public partial class MainPage : ContentPage
 		BindingContext = new MainViewModel();
 	}
 
+    private void appointmentsClicked(object sender, EventArgs e)
+    {
+    }
+
+    private void patientsClicked(object sender, EventArgs e)
+    {
+    }
+
+    private void physiciansClicked(object sender, EventArgs e)
+    {
+    }
+
 }
 

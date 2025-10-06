@@ -4,9 +4,12 @@
              x:Class="Clinic.Maui.Views.AppointmentView"
              Title="AppointmentView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Label
+            Text ="Scheduled Appointments"
+        />
+        <ListView
+            ItemsSource ="{Binding Appointments}"
+            SelectedItem="{Binding selectedAppointment}"
+        />
     </VerticalStackLayout>
 </ContentPage>

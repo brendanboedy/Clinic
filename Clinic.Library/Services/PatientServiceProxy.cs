@@ -6,7 +6,7 @@ namespace Clinic.Library.Services;
 
 public class PatientServiceProxy
 {
-    private List<Patient> patientList;
+    public List<Patient> patientList { get; set; }
 
     //private proxy constructor
     private PatientServiceProxy()
@@ -80,6 +80,15 @@ public class PatientServiceProxy
 
         //return deleted patient
         return existingPatient;
+    }
+
+    public Patient? GetByID(int ID)
+    {
+        if (ID <= 0)
+        {
+            return null;
+        }
+        return patientList.FirstOrDefault(p => p.ID == ID);
     }
 
 }
