@@ -15,14 +15,17 @@ public partial class MainPage : ContentPage
 
     private void appointmentsClicked(object sender, EventArgs e)
     {
+        Shell.Current.GoToAsync("//Appointments");
     }
 
     private void patientsClicked(object sender, EventArgs e)
     {
+        Shell.Current.GoToAsync("//Patients");
     }
 
     private void physiciansClicked(object sender, EventArgs e)
     {
+        Shell.Current.GoToAsync("//Physicians");
     }
 
 }
