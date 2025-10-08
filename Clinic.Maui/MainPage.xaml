@@ -37,7 +37,7 @@
                     HeightRequest="300"
                     WidthRequest="300"
                     CornerRadius="35"
-                    Text ="Create/Update/View Appointments"
+                    Text ="Create/Update/View Patients"
                     Clicked="patientsClicked"/>
 
                 <!-- Physician Button -->
@@ -46,7 +46,7 @@
                     HeightRequest="300"
                     WidthRequest="300"
                     CornerRadius="35"
-                    Text ="Create/Update/View Appointments"
+                    Text ="Create/Update/View Physicians"
                     Clicked="physiciansClicked"/>
             </Grid>
         </VerticalStackLayout>

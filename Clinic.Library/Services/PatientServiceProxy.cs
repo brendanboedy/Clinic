@@ -6,12 +6,22 @@ namespace Clinic.Library.Services;
 
 public class PatientServiceProxy
 {
-    public List<Patient> patientList { get; set; }
+    //proxy list holding all patients
+    private List<Patient?> patientList { get; set; }
+
+    //public list to access private
+    public List<Patient?> PatientList
+    {
+        get
+        {
+            return patientList;
+        }
+    }
 
     //private proxy constructor
     private PatientServiceProxy()
     {
-        patientList = new List<Patient>();
+        patientList = new List<Patient?>();
     }
 
     private static PatientServiceProxy? instance;
@@ -34,13 +44,7 @@ public class PatientServiceProxy
         }
     }
 
-    //public getter to access private list
-    public List<Patient> PatientList
-    {
-        get { return patientList; }
-    }
-
-    public Patient? Add(Patient patient)
+    public Patient? Add(Patient? patient)
     {
         //make sure patient not null
         if (patient == null)
@@ -72,7 +76,7 @@ public class PatientServiceProxy
     public Patient? Delete(int patientID)
     {
         //find existing patient
-        var existingPatient = patientList.FirstOrDefault(p => p.ID == patientID);
+        var existingPatient = patientList.FirstOrDefault(p => p?.ID == patientID);
         if (existingPatient == null) { return null; }
 
         //remove patient from list
@@ -88,7 +92,7 @@ public class PatientServiceProxy
         {
             return null;
         }
-        return patientList.FirstOrDefault(p => p.ID == ID);
+        return patientList.FirstOrDefault(p => p?.ID == ID);
     }
 
 }

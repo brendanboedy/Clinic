@@ -5,10 +5,10 @@ namespace Clinic.Library.Services;
 
 public class PhysicianServiceProxy
 {
-    public List<Physician> physicianList { get; set; }
+    private List<Physician?> physicianList { get; set; }
     private PhysicianServiceProxy()
     {
-        physicianList = new List<Physician>();
+        physicianList = new List<Physician?>();
     }
 
     private static PhysicianServiceProxy? instance;
@@ -28,12 +28,12 @@ public class PhysicianServiceProxy
         }
     }
 
-    public List<Physician> PhysicianList
+    public List<Physician?> PhysicianList
     {
         get { return physicianList; }
     }
 
-    public Physician? Add(Physician physician)
+    public Physician? Add(Physician? physician)
     {
         //make sure physician not null
         if (physician == null)
@@ -63,7 +63,7 @@ public class PhysicianServiceProxy
 
     public Physician? Delete(int physicianID)
     {
-        var existingPhysician = physicianList.FirstOrDefault(p => p.ID == physicianID);
+        var existingPhysician = physicianList.FirstOrDefault(p => p?.ID == physicianID);
         if (existingPhysician == null) { return null; }
 
         //remove physician from list
@@ -77,6 +77,6 @@ public class PhysicianServiceProxy
         {
             return null;
         }
-        return physicianList.FirstOrDefault(p => p.ID == ID);
+        return physicianList.FirstOrDefault(p => p?.ID == ID);
     }
 }

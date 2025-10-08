@@ -6,7 +6,7 @@ namespace Clinic.Library.Services;
 public class AppointmentServiceProxy
 {
     //list to hold appointments in memory
-    public List<Appointment> appointmentList { get; set; }
+    private List<Appointment?> appointmentList { get; set; }
 
     //access to patient and physician service proxy
     //private PatientServiceProxy _patientSvc;
@@ -17,7 +17,7 @@ public class AppointmentServiceProxy
     {
         //_patientSvc = PatientServiceProxy.Current;
         //_physicianSvc = PhysicianServiceProxy.Current;
-        appointmentList = new List<Appointment>();
+        appointmentList = new List<Appointment?>();
     }
 
     //singleton instance and lock object
@@ -42,12 +42,12 @@ public class AppointmentServiceProxy
     }
 
     //public getter to access private list
-    public List<Appointment> AppointmentList
+    public List<Appointment?> AppointmentList
     {
         get { return appointmentList; }
     }
 
-    public Appointment? Add(Appointment appointment)
+    public Appointment? Add(Appointment? appointment)
     {
         //make sure appointment not null
         if (appointment == null)
@@ -91,6 +91,6 @@ public class AppointmentServiceProxy
         {
             return null;
         }
-        return appointmentList.FirstOrDefault(a => a.ID == ID);
+        return appointmentList.FirstOrDefault(a => a?.ID == ID);
     }
 }

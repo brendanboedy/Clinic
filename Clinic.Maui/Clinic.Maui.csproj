@@ -66,4 +66,10 @@
 	  <ProjectReference Include="../Clinic.Library/Clinic.Library.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Views/addPatientView.xaml.cs">
+	    <DependentUpon>AddPatientView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

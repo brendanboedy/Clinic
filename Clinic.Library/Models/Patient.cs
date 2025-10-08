@@ -6,11 +6,11 @@ public class Patient
 {
     // Patient Properties
     public int ID { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public string? Race { get; set; }
     public string? Gender { get; set; }
     public string? Address { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
     public string? Notes { get; set; }
 
     //ToString Override
@@ -25,10 +25,18 @@ public class Patient
         return thePatient;
     }
 
-    //Constructor
+    //for binding context
+    public string Display
+    {
+        get { return ToString(); }
+    }
+
+    //Parameterized Constructor
     public Patient(string name, DateTime birthDate)
     {
         Name = name;
         DateOfBirth = birthDate;
     }
+
+    public Patient(){}
 }

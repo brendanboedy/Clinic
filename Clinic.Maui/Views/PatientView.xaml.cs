@@ -10,4 +10,21 @@ public partial class PatientView : ContentPage
 		//binding patient content page to patient view model
 		BindingContext = new PatientViewModel();
 	}
+
+	private void clickedAddPatient(object sender, EventArgs e)
+	{
+		//navigate to AddPatient view
+		Shell.Current.GoToAsync("//AddPatient");
+    }
+
+	private void clickedBack(object sender, EventArgs e)
+	{
+		//navigate back to MainPage
+		Shell.Current.GoToAsync("//MainPage");
+    }
+
+	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+	{
+		(BindingContext as PatientViewModel)?.Refresh();
+    }
 }

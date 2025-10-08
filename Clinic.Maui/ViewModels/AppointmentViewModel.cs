@@ -13,10 +13,10 @@ public class AppointmentViewModel
     private AppointmentServiceProxy _appointmentSvc;
 
     //private appointment list
-    private List<Appointment> appointments;
+    private List<Appointment?> appointments;
 
     //Binding Context ItemsSource "Appointments"
-    public List<Appointment> Appointments
+    public List<Appointment?> Appointments
     {
         get
         {
@@ -34,13 +34,16 @@ public class AppointmentViewModel
         _patientSvc = PatientServiceProxy.Current;
         _physicianSvc = PhysicianServiceProxy.Current;
         _appointmentSvc = AppointmentServiceProxy.Current;
-        appointments = _appointmentSvc.appointmentList;
+        appointments = _appointmentSvc.AppointmentList;
 
         //assign patient and physician for each appointment
         foreach (var app in Appointments)
         {
-            app.Patient = _patientSvc.GetByID(app.PatientID);
-            app.Physician = _physicianSvc.GetByID(app.PhysicianID);
+            if (app != null)
+            {
+                app.Patient = _patientSvc.GetByID(app.PatientID);
+                app.Physician = _physicianSvc.GetByID(app.PhysicianID);
+            }
         }
     }
 }

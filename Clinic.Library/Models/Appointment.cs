@@ -5,9 +5,9 @@ namespace Clinic.Library.Models;
 public class Appointment
 {
     public int ID { get; set; }
-    public DateOnly AppointmentDate { get; set; }
-    public TimeOnly AppointmentStartTime { get; set; }
-    public TimeOnly AppointmentEndTime { get; set; }
+    public DateOnly? AppointmentDate { get; set; }
+    public TimeOnly? AppointmentStartTime { get; set; }
+    public TimeOnly? AppointmentEndTime { get; set; }
     public int PatientID { get; set; }
     public int PhysicianID { get; set; }
     public Patient? Patient;
