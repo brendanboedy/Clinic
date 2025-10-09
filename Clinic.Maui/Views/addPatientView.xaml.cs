@@ -15,7 +15,7 @@ public partial class AddPatientView : ContentPage
 
 	private void cancelClicked(object sender, EventArgs e)
 	{
-		Shell.Current.GoToAsync("//MainPage");
+		Shell.Current.GoToAsync("//Patients");
 	}
 
 	private void addClicked(object sender, EventArgs e)

@@ -18,9 +18,20 @@ public class PhysicianViewModel : INotifyPropertyChanged
         }
     }
     //ItemSelected Binding
-    public Physician? selectedPhysician { get; set; }
+    public Physician? SelectedPhysician { get; set; }
     public void Refresh()
     {
+        NotifyPropertyChanged(nameof(Physicians));
+    }
+    public void Delete()
+    {
+        //make sure physician not null
+        if(SelectedPhysician == null)
+        {
+            return;
+        }
+        PhysicianServiceProxy.Current.Delete(SelectedPhysician?.ID ?? 0);
+        //update view
         NotifyPropertyChanged(nameof(Physicians));
     }
     public event PropertyChangedEventHandler? PropertyChanged;

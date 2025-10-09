@@ -1,4 +1,5 @@
 using System;
+using Clinic.Library.Services;
 
 namespace Clinic.Library.Models;
 
@@ -31,5 +32,17 @@ public class Physician
         Name = name;
         LicenseNumber = licenseNumber;
     }
-    public Physician(){}
+    public Physician() { }
+    
+    public Physician(int ID)
+    {
+        var physicianToCopy = PhysicianServiceProxy.Current.PhysicianList.FirstOrDefault(p => (p?.ID ?? 0) == ID);
+        if(physicianToCopy != null)
+        {
+            ID = physicianToCopy.ID;
+            Name = physicianToCopy.Name;
+            LicenseNumber = physicianToCopy.LicenseNumber;
+            Specialty = physicianToCopy.Specialty;
+        }
+    }
 }

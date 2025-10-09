@@ -2,13 +2,26 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Clinic.Maui.Views.AddPhysicianView"
-             Title="AddPhysicianView"
+             Title="Create New Physician or Edit Existing Physician!"
              NavigatedTo="ContentPage_NavigatedTo">
     <VerticalStackLayout>
         <Label 
-            Text="Add a Physician!"
+            Text="Add or Edit a Physician!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Name"/>
+        <Entry Text="{Binding Name}"/>
+        <Label Text="License Number"/>
+        <Entry Text="{Binding LicenseNumber}"/>
+        <Label Text="Specialty"/>
+        <Entry Text="{Binding Specialty}"/>
+        <!-- add button -->
+        <Button
+            Text="Add/Update Physician"
+            Clicked="addClicked"/>
+        <!-- cancel/back button -->
+        <Button
+            Text="Cancel"
+            Clicked="cancelClicked"/>
     </VerticalStackLayout>
 </ContentPage>

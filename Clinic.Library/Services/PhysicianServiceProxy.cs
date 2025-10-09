@@ -33,7 +33,7 @@ public class PhysicianServiceProxy
         get { return physicianList; }
     }
 
-    public Physician? Add(Physician? physician)
+    public Physician? AddOrUpdate(Physician? physician)
     {
         //make sure physician not null
         if (physician == null)
@@ -56,6 +56,16 @@ public class PhysicianServiceProxy
             }
             physician.ID = ++maxID;
             physicianList.Add(physician);
+        }
+        else
+        {
+            var physicianToEdit = PhysicianList.FirstOrDefault(p => (p?.ID ?? 0) == physician.ID);
+            if(physicianToEdit != null)
+            {
+                var index = PhysicianList.IndexOf(physicianToEdit);
+                PhysicianList.RemoveAt(index);
+                physicianList.Insert(index, physician);
+            }
         }
 
         return physician;

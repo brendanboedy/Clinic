@@ -70,6 +70,7 @@ public class AppointmentServiceProxy
             appointment.ID = ++maxID;
             appointmentList.Add(appointment);
         }
+        
 
         return appointment;
     }
