@@ -34,9 +34,9 @@ public class Physician
     }
     public Physician() { }
     
-    public Physician(int ID)
+    public Physician(int theID)
     {
-        var physicianToCopy = PhysicianServiceProxy.Current.PhysicianList.FirstOrDefault(p => (p?.ID ?? 0) == ID);
+        var physicianToCopy = PhysicianServiceProxy.Current.PhysicianList.FirstOrDefault(p => (p?.ID ?? 0) == theID);
         if(physicianToCopy != null)
         {
             ID = physicianToCopy.ID;
