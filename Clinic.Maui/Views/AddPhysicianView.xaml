@@ -9,6 +9,5 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Name"/>
-        
     </VerticalStackLayout>
 </ContentPage>

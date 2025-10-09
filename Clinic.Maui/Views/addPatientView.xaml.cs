@@ -9,8 +9,6 @@ public partial class AddPatientView : ContentPage
 	public AddPatientView()
 	{
 		InitializeComponent();
-		//binding to patient for now
-		BindingContext = new Patient();
 	}
 
 	private void cancelClicked(object sender, EventArgs e)
@@ -25,5 +23,10 @@ public partial class AddPatientView : ContentPage
 
 		//go back to patient view page
 		Shell.Current.GoToAsync("//Patients");
+    }
+
+	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+	{
+		BindingContext = new Patient();
     }
 }
