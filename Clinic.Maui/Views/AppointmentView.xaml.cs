@@ -10,4 +10,21 @@ public partial class AppointmentView : ContentPage
 		//binding appointment content page to appointment view model
 		BindingContext = new AppointmentViewModel();
 	}
+
+    private void createClicked(object sender, EventArgs e)
+    {
+    }
+
+    private void editClicked(object sender, EventArgs e)
+    {
+    }
+
+    private void deleteClicked(object sender, EventArgs e)
+    {
+    }
+
+    private void backClicked(object sender, EventArgs e)
+	{
+		Shell.Current.GoToAsync("//MainPage");
+    }
 }

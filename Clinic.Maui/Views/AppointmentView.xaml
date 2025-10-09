@@ -11,5 +11,17 @@
             ItemsSource ="{Binding Appointments}"
             SelectedItem="{Binding selectedAppointment}"
         />
+        <Button
+            Text="Create Appointment"
+            Clicked="createClicked"/>
+        <Button
+            Text="Edit Selected Appointment"
+            Clicked="editClicked"/>
+        <Button
+            Text="Delete Selected Appointment"
+            Clicked="deleteClicked"/>
+        <Button
+            Text="Back"
+            Clicked="backClicked"/>
     </VerticalStackLayout>
 </ContentPage>
