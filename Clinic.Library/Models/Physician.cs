@@ -31,4 +31,5 @@ public class Physician
         Name = name;
         LicenseNumber = licenseNumber;
     }
+    public Physician(){}
 }

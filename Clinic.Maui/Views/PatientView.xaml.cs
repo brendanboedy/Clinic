@@ -14,7 +14,7 @@ public partial class PatientView : ContentPage
 	private void clickedAddPatient(object sender, EventArgs e)
 	{
 		//navigate to AddPatient view
-		Shell.Current.GoToAsync("//AddPatient");
+		Shell.Current.GoToAsync("//AddPatient?PatientID=0");
     }
 
 	private void clickedBack(object sender, EventArgs e)
@@ -26,5 +26,16 @@ public partial class PatientView : ContentPage
 	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
 	{
 		(BindingContext as PatientViewModel)?.Refresh();
+    }
+
+    private void deleteClicked(object sender, EventArgs e)
+	{
+		(BindingContext as PatientViewModel)?.Delete();
+    }
+
+    private void editClicked(object sender, EventArgs e)
+	{
+		var selectedID = (BindingContext as PatientViewModel)?.SelectedPatient?.ID ?? 0;
+		Shell.Current.GoToAsync($"//AddPatient?PatientID={selectedID}");
     }
 }

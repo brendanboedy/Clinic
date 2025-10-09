@@ -19,10 +19,21 @@ public class PatientViewModel : INotifyPropertyChanged
         }
     }
     //SelectedItem in patient view
-    public Patient? patient { get; set; }
+    public Patient? SelectedPatient { get; set; }
     public void Refresh()
     {
-        NotifyPropertyChanged("Patients");
+        NotifyPropertyChanged(nameof(Patients));
+    }
+    public void Delete()
+    {
+        //check to make sure not passing null patient to proxy delete method
+        if (SelectedPatient == null)
+        {
+            return;
+        }
+        PatientServiceProxy.Current.Delete(SelectedPatient?.ID ?? 0);
+        //update view
+        NotifyPropertyChanged(nameof(Patients));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

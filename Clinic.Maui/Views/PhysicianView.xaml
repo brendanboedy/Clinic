@@ -11,7 +11,7 @@
             HorizontalOptions="Center" />
         <ListView
             ItemsSource="{Binding Physicians}"
-            SelectedItem="{Binding physician}"
+            SelectedItem="{Binding selectedPhysician}"
             HasUnevenRows="True"
             >
             <!-- producing list view template -->

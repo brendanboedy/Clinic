@@ -18,10 +18,10 @@ public class PhysicianViewModel : INotifyPropertyChanged
         }
     }
     //ItemSelected Binding
-    public Physician? physician { get; set; }
+    public Physician? selectedPhysician { get; set; }
     public void Refresh()
     {
-        NotifyPropertyChanged("Physicians");
+        NotifyPropertyChanged(nameof(Physicians));
     }
     public event PropertyChangedEventHandler? PropertyChanged;
     private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

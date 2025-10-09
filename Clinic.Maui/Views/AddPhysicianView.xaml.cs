@@ -1,3 +1,5 @@
+using Clinic.Library.Models;
+
 namespace Clinic.Maui.Views;
 
 public partial class AddPhysicianView : ContentPage
@@ -6,4 +8,9 @@ public partial class AddPhysicianView : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+	{
+		BindingContext = new Physician();
+    }
 }

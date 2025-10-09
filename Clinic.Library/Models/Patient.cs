@@ -1,4 +1,5 @@
 using System;
+using Clinic.Library.Services;
 
 namespace Clinic.Library.Models;
 
@@ -38,5 +39,20 @@ public class Patient
         DateOfBirth = birthDate;
     }
 
-    public Patient(){}
+    public Patient() { }
+    
+    public Patient(int theID)
+    {
+        var patientCopy = PatientServiceProxy.Current.PatientList.FirstOrDefault(p => (p?.ID ?? 0) == theID);
+        if(patientCopy != null)
+        {
+            ID = patientCopy.ID;
+            Name = patientCopy.Name;
+            Race = patientCopy.Race;
+            Gender = patientCopy.Gender;
+            Address = patientCopy.Address;
+            DateOfBirth = patientCopy.DateOfBirth;
+            Notes = patientCopy.Notes;
+        }
+    }
 }

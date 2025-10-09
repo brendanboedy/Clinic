@@ -44,7 +44,7 @@ public class PatientServiceProxy
         }
     }
 
-    public Patient? Add(Patient? patient)
+    public Patient? AddOrUpdate(Patient? patient)
     {
         //make sure patient not null
         if (patient == null)
@@ -68,8 +68,18 @@ public class PatientServiceProxy
             patient.ID = ++maxID;
             patientList.Add(patient);
         }
+        else
+        {
+            var patientToEdit = PatientList.FirstOrDefault(p => (p?.ID ?? 0) == patient.ID);
+            if (patientToEdit != null)
+            {
+                var index = PatientList.IndexOf(patientToEdit);
+                PatientList.RemoveAt(index);
+                patientList.Insert(index, patient);
+            }
+        }
 
-        //return added patient
+        //return added patient or patient to update
         return patient;
     }
 

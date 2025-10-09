@@ -11,7 +11,7 @@
             HorizontalOptions="Center" />
         <ListView
             ItemsSource="{Binding Patients}"
-            SelectedItem="{Binding patient}"
+            SelectedItem="{Binding SelectedPatient}"
             HasUnevenRows="True"
             >
             <!-- producing list view template -->
@@ -48,7 +48,15 @@
         <Button 
             Text="Add New Patient" 
             Clicked="clickedAddPatient"/>
-            <!-- button to go back to home screen -->
+        <!-- Button to Delete selected patient -->
+        <Button
+            Text="Delete Selected Patient"
+            Clicked="deleteClicked"/>
+        <!-- Button to Edit selected patient -->
+        <Button
+            Text="Edit Selected Patient"
+            Clicked="editClicked"/>
+        <!-- button to go back to home screen -->
         <Button 
             Text="Back" 
             Clicked="clickedBack"/>

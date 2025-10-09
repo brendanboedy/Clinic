@@ -29,4 +29,5 @@ public class Appointment
         PatientID = patientId;
         PhysicianID = physicianId;
     }
+    public Appointment(){}
 }
