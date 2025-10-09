@@ -17,6 +17,14 @@ public class Physician
         return thePhysician;
     }
 
+    public string Display
+    {
+        get
+        {
+            return ToString();
+        }
+    }
+
     //Constructor
     public Physician(string name, int licenseNumber)
     {

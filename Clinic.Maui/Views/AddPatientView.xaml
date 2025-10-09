@@ -5,7 +5,7 @@
              Title="Create New Patient">
     <VerticalStackLayout>
         <Label 
-            Text="Add a Patient"
+            Text="Add a Patient!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Name"/>

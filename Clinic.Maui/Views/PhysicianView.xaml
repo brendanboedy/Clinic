@@ -2,11 +2,55 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Clinic.Maui.Views.PhysicianView"
-             Title="Physician Page">
+             Title="Physician Page"
+             NavigatedTo="ContentPage_NavigatedTo">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Listing Current Physicians!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <ListView
+            ItemsSource="{Binding Physicians}"
+            SelectedItem="{Binding physician}"
+            HasUnevenRows="True"
+            >
+            <!-- producing list view template -->
+            <!-- each row is a 2-column grid with a label and buttons -->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <!-- column one -->
+                                <ColumnDefinition Width="5*"/>
+                                <!-- column two -->
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label 
+                                Text="{Binding Display}" 
+                                Grid.Column="0"
+                                LineBreakMode="WordWrap"/>
+                            <Grid Grid.Column="1">
+                                <!-- seperate grid w 2 columns inside column 1 of outer grid -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Text="Edit" Grid.Column="0"/>
+                                <Button Text="Delete" Grid.Column="1"/>
+                            </Grid>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!-- button to add new physician (new content page) -->
+        <Button 
+            Text="Add New Physician" 
+            Clicked="addClicked"/>
+            <!-- button to go back to home screen -->
+        <Button 
+            Text="Back" 
+            Clicked="backClicked"/>
     </VerticalStackLayout>
 </ContentPage>

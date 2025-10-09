@@ -31,5 +31,9 @@
         Title="Create New Patient"
         ContentTemplate="{DataTemplate views:AddPatientView}"
         Route="AddPatient" />
+    <ShellContent
+        Title="Create New Physician"
+        ContentTemplate="{DataTemplate views:AddPhysicianView}"
+        Route="AddPhysician" />
 
 </Shell>

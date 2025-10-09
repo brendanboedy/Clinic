@@ -6,7 +6,7 @@
              NavigatedTo="ContentPage_NavigatedTo">
     <VerticalStackLayout>
         <Label 
-            Text="Viewing Patients"
+            Text="Listing Current Patients!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <ListView
@@ -29,8 +29,7 @@
                             <Label 
                                 Text="{Binding Display}" 
                                 Grid.Column="0"
-                                LineBreakMode="WordWrap"
-                                VerticalOptions="StartAndExpand"/>
+                                LineBreakMode="WordWrap"/>
                             <Grid Grid.Column="1">
                                 <!-- seperate grid w 2 columns inside column 1 of outer grid -->
                                 <Grid.ColumnDefinitions>
