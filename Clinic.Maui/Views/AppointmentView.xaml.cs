@@ -11,10 +11,6 @@ public partial class AppointmentView : ContentPage
 		BindingContext = new AppointmentViewModel();
 	}
 
-    private void createClicked(object sender, EventArgs e)
-    {
-    }
-
     private void editClicked(object sender, EventArgs e)
     {
     }
@@ -26,5 +22,10 @@ public partial class AppointmentView : ContentPage
     private void backClicked(object sender, EventArgs e)
 	{
 		Shell.Current.GoToAsync("//MainPage");
+    }
+
+    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        (BindingContext as AppointmentViewModel)?.Refresh();
     }
 }

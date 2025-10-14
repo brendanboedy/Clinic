@@ -2,11 +2,45 @@ using System;
 
 namespace Clinic.Maui.ViewModels;
 
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Clinic.Library.Models;
 using Clinic.Library.Services;
 
-public class AppointmentViewModel
+public class AppointmentViewModel : INotifyPropertyChanged
 {
+    public ObservableCollection<Patient?> Patients {
+        get {
+            return new ObservableCollection<Patient?>(PatientServiceProxy.Current.PatientList);
+        }
+    }
+    public ObservableCollection<Physician?> Physicians {
+        get {
+            return new ObservableCollection<Physician?>(PhysicianServiceProxy.Current.PhysicianList);
+        }
+    }
+    public ObservableCollection<AddAppointmentViewModel?> Appointments{
+        get{
+            return new ObservableCollection<AddAppointmentViewModel?>
+            (AppointmentServiceProxy
+            .Current
+            .AppointmentList
+            .Select(ap => new AddAppointmentViewModel(ap)));
+        }
+    }
+    public void Refresh()
+    {
+        NotifyPropertyChanged(nameof(Patients));
+        NotifyPropertyChanged(nameof(Physicians));
+        NotifyPropertyChanged(nameof(Appointments));
+    }
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+    /*
     //references to proxys
     private PatientServiceProxy _patientSvc;
     private PhysicianServiceProxy _physicianSvc;
@@ -46,4 +80,5 @@ public class AppointmentViewModel
             }
         }
     }
+    */
 }

@@ -2,18 +2,91 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Clinic.Maui.Views.AppointmentView"
-             Title="Appointment Page">
+             Title="Appointment Page"
+             NavigatedTo="ContentPage_NavigatedTo">
     <VerticalStackLayout>
         <Label
-            Text ="Scheduled Appointments"
-        />
-        <ListView
-            ItemsSource ="{Binding Appointments}"
-            SelectedItem="{Binding selectedAppointment}"
-        />
-        <Button
-            Text="Create Appointment"
-            Clicked="createClicked"/>
+            Text ="Welcome to the Appointments Page"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!-- listing all patients in row 0 column 0 -->
+            <Label 
+                Text="Listing Current Patients:"
+                Grid.Row="0"
+                Grid.Column="0"/>
+            <ListView
+                Grid.Row="1"
+                Grid.Column="0"
+                ItemsSource ="{Binding Patients}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding Display}"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!-- listing all physicians in row 0 column 1 -->
+            <Label 
+                Text="Listing Current Physicians:" 
+                Grid.Row="0"
+                Grid.Column="1"/>
+            <ListView
+                Grid.Row="1"
+                Grid.Column="1"
+                ItemsSource ="{Binding Physicians}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding Display}"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!-- listing all appointments in row 0 column 2 -->
+            <Label 
+                Text="Listing Current Appointments:" 
+                Grid.Row="0"
+                Grid.Column="2"/>
+            <ListView
+                Grid.Row="1"
+                Grid.Column="2"
+                ItemsSource ="{Binding Appointments}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <!-- internal grid for inline buttons -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Text="{Binding Model.Display}"
+                                    Grid.Column="0"/>
+                                <Button
+                                    Text="Edit"
+                                    Grid.Column="1"/>
+                                <Button
+                                    Text="Delete"
+                                    Grid.Column="2"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
         <Button
             Text="Edit Selected Appointment"
             Clicked="editClicked"/>

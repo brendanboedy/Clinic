@@ -11,9 +11,7 @@
             HorizontalOptions="Center" />
         <ListView
             ItemsSource="{Binding Patients}"
-            SelectedItem="{Binding SelectedPatient}"
-            HasUnevenRows="True"
-            >
+            SelectedItem="{Binding SelectedPatient}">
             <!-- producing list view template -->
             <!-- each row is a 2-column grid with a label and buttons -->
             <ListView.ItemTemplate>
@@ -27,38 +25,54 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label 
-                                Text="{Binding Display}" 
-                                Grid.Column="0"
-                                LineBreakMode="WordWrap"/>
+                                Text="{Binding Model.Display}"
+                                Grid.Column="0"/>
                             <Grid Grid.Column="1">
                                 <!-- seperate grid w 2 columns inside column 1 of outer grid -->
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button Text="Edit" Grid.Column="0"/>
-                                <Button Text="Delete" Grid.Column="1"/>
+                                <Button Text="Edit" 
+                                    Grid.Column="0"
+                                    Command ="{Binding EditCommand}"
+                                    CommandParameter="{Binding}"/>
+                                <Button Text="Delete" 
+                                    Grid.Column="1"
+                                    Command ="{Binding DeleteCommand}"
+                                    Clicked="InlineDeleteClicked"
+                                    CommandParameter="{Binding}"/>
                             </Grid>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <!-- button to add new patient (new content page) -->
-        <Button 
-            Text="Add New Patient" 
-            Clicked="clickedAddPatient"/>
-        <!-- Button to Delete selected patient -->
-        <Button
-            Text="Delete Selected Patient"
-            Clicked="deleteClicked"/>
-        <!-- Button to Edit selected patient -->
-        <Button
-            Text="Edit Selected Patient"
-            Clicked="editClicked"/>
-        <!-- button to go back to home screen -->
-        <Button 
-            Text="Back" 
-            Clicked="clickedBack"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!-- button to add new patient (new content page) -->
+            <Button
+                Grid.Column="0"
+                Text="Add New Patient" 
+                Clicked="clickedAddPatient"/>
+            <!-- Button to Delete selected patient -->
+            <Button
+                Grid.Column="2"
+                Text="Delete Selected Patient"
+                Clicked="deleteClicked"/>
+            <!-- Button to Edit selected patient -->
+            <Button
+                Grid.Column="1"
+                Text="Edit Selected Patient"
+                Clicked="editClicked"/>
+        </Grid>
+            <!-- button to go back to home screen -->
+            <Button 
+                Text="Back" 
+                Clicked="clickedBack"/>
     </VerticalStackLayout>
 </ContentPage>

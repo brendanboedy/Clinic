@@ -4,21 +4,26 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Clinic.Library.Models;
 using Clinic.Library.Services;
+using Clinic.Maui.Views;
 
 namespace Clinic.Maui.ViewModels;
 
 public class PhysicianViewModel : INotifyPropertyChanged
 {
     //ItemsSource Binding
-    public ObservableCollection<Physician?> Physicians
+    public ObservableCollection<AddPhysicianViewModel?> Physicians
     {
         get
         {
-            return new ObservableCollection<Physician?>(PhysicianServiceProxy.Current.PhysicianList);
+            return new ObservableCollection<AddPhysicianViewModel?>
+            (PhysicianServiceProxy
+            .Current
+            .PhysicianList
+            .Select(p => new AddPhysicianViewModel(p)));
         }
     }
     //ItemSelected Binding
-    public Physician? SelectedPhysician { get; set; }
+    public AddPhysicianViewModel? SelectedPhysician { get; set; }
     public void Refresh()
     {
         NotifyPropertyChanged(nameof(Physicians));
@@ -30,7 +35,7 @@ public class PhysicianViewModel : INotifyPropertyChanged
         {
             return;
         }
-        PhysicianServiceProxy.Current.Delete(SelectedPhysician?.ID ?? 0);
+        PhysicianServiceProxy.Current.Delete(SelectedPhysician?.Model?.ID ?? 0);
         //update view
         NotifyPropertyChanged(nameof(Physicians));
     }

@@ -28,12 +28,17 @@ public partial class PhysicianView : ContentPage
 
     private void editClicked(object sender, EventArgs e)
 	{
-		var selectedID = (BindingContext as PhysicianViewModel)?.SelectedPhysician?.ID ?? 0;
+		var selectedID = (BindingContext as PhysicianViewModel)?.SelectedPhysician?.Model?.ID ?? 0;
 		Shell.Current.GoToAsync($"//AddPhysician?PhysicianID={selectedID}");
     }
 
     private void deleteClicked(object sender, EventArgs e)
 	{
 		(BindingContext as PhysicianViewModel)?.Delete();
+    }
+
+    private void inlineDeleteClicked(object sender, EventArgs e)
+	{
+		(BindingContext as PhysicianViewModel)?.Refresh();
     }
 }
