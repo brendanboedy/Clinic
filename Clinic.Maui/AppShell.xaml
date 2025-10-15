@@ -12,28 +12,29 @@
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-
     <ShellContent
         Title="Appointments"
         ContentTemplate="{DataTemplate views:AppointmentView}"
         Route="Appointments" />
-
     <ShellContent
         Title="Patients"
         ContentTemplate="{DataTemplate views:PatientView}"
         Route="Patients" />
-
     <ShellContent
         Title="Physicians"
         ContentTemplate="{DataTemplate views:PhysicianView}"
         Route="Physicians" />
+
     <ShellContent
-        Title="Create New Patient"
+        Title="Create/Update Patient"
         ContentTemplate="{DataTemplate views:AddPatientView}"
         Route="AddPatient" />
     <ShellContent
-        Title="Create New Physician"
+        Title="Create/Update Physician"
         ContentTemplate="{DataTemplate views:AddPhysicianView}"
         Route="AddPhysician" />
-
+    <ShellContent
+        Title="Create/Update Appointment"
+        ContentTemplate="{DataTemplate views:AddAppointmentView}"
+        Route="AddAppointment" />
 </Shell>

@@ -28,4 +28,9 @@ public partial class AppointmentView : ContentPage
     {
         (BindingContext as AppointmentViewModel)?.Refresh();
     }
+
+    private void createApptClicked(object sender, EventArgs e)
+    {
+        (BindingContext as AppointmentViewModel)?.AddAppointmentCheck();
+    }
 }

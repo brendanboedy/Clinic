@@ -9,6 +9,8 @@
             Text ="Welcome to the Appointments Page"
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
+        <!-- Grid to list current patients, physicians, and appointments -->
+        <!-- patients and physicians display only, cannot edit here -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -16,10 +18,11 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <!-- row 0 for label, row 1 for list -->
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <!-- listing all patients in row 0 column 0 -->
+            <!-- listing all patients in column 0 -->
             <Label 
                 Text="Listing Current Patients:"
                 Grid.Row="0"
@@ -36,7 +39,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!-- listing all physicians in row 0 column 1 -->
+            <!-- listing all physicians in column 1 -->
             <Label 
                 Text="Listing Current Physicians:" 
                 Grid.Row="0"
@@ -53,7 +56,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!-- listing all appointments in row 0 column 2 -->
+            <!-- listing all appointments in column 2 -->
             <Label 
                 Text="Listing Current Appointments:" 
                 Grid.Row="0"
@@ -87,12 +90,65 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Button
-            Text="Edit Selected Appointment"
-            Clicked="editClicked"/>
-        <Button
-            Text="Delete Selected Appointment"
-            Clicked="deleteClicked"/>
+        <!-- grid to format patient/physician ID entry and create appt button -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!-- internal grid for label and entry -->
+            <Grid
+                Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Please Enter Patient ID:"/>
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="{Binding PatientID}"/>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Text="Please Enter Physician ID:"/>
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Text="{Binding PhysicianID}"/>
+            </Grid>
+            <Button
+                Grid.Column="1"
+                Text="Create Appointment"
+                Clicked="createApptClicked"/>
+        </Grid>
+        <!-- invisible label to print error message if invalid IDS -->
+        <Label
+            Text="The Patient or Physician ID entered was invalid. Please try again."
+            IsVisible="{Binding ErrorLabelVisibility}"
+            HorizontalOptions="Center"/>
+        <!-- grid to hold edit and delete button -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Text="Edit Selected Appointment"
+                Clicked="editClicked"/>
+            <Button
+                Grid.Column="1"
+                Text="Delete Selected Appointment"
+                Clicked="deleteClicked"/>
+        </Grid>
         <Button
             Text="Back"
             Clicked="backClicked"/>
