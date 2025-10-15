@@ -42,9 +42,11 @@ public class AppointmentViewModel : INotifyPropertyChanged
             .Select(ap => new AddAppointmentViewModel(ap)));
         }
     }
+    //property for selected appointment
+    public AddAppointmentViewModel? SelectedAppointment { get; set; }
     //public properties for binding entry for patient/physician ID
-    public int PatientID { get; set; }
-    public int PhysicianID { get; set; }
+    public int patientID { get; set; }
+    public int physicianID { get; set; }
 
     //properties for visbility of error label
     private bool errorLabelVisibility;
@@ -69,12 +71,12 @@ public class AppointmentViewModel : INotifyPropertyChanged
             .Current
             .PatientList
             .FirstOrDefault
-            (p => (p?.ID ?? 0) == PatientID);
+            (p => (p?.ID ?? 0) == patientID);
         Physician? thePhysician = PhysicianServiceProxy
             .Current
             .PhysicianList
             .FirstOrDefault
-            (p => (p?.ID ?? 0) == PhysicianID);
+            (p => (p?.ID ?? 0) == physicianID);
         //if either is null - change visibility of error label
         if (thePatient == null || thePhysician == null)
         {
@@ -100,6 +102,15 @@ public class AppointmentViewModel : INotifyPropertyChanged
         NotifyPropertyChanged(nameof(Physicians));
         NotifyPropertyChanged(nameof(Appointments));
         ErrorLabelVisibility = false;
+    }
+    public void Delete()
+    {
+        if(SelectedAppointment == null)
+        {
+            return;
+        }
+        AppointmentServiceProxy.Current.Delete(SelectedAppointment.Model?.ID ?? 0);
+        NotifyPropertyChanged(nameof(Appointments));
     }
     public event PropertyChangedEventHandler? PropertyChanged;
     private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

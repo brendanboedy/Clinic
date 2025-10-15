@@ -47,7 +47,7 @@ public class AppointmentServiceProxy
         get { return appointmentList; }
     }
 
-    public Appointment? Add(Appointment? appointment)
+    public Appointment? AddOrUpdate(Appointment? appointment)
     {
         //make sure appointment not null
         if (appointment == null)
@@ -55,7 +55,7 @@ public class AppointmentServiceProxy
             return null;
         }
 
-        //assign ID
+        //assign ID for new appointments
         if (appointment.ID <= 0)
         {
             int maxID = -1;
@@ -70,15 +70,24 @@ public class AppointmentServiceProxy
             appointment.ID = ++maxID;
             appointmentList.Add(appointment);
         }
-        
-
+        //if appointment already exists, replace w/ new updated appointment
+        else
+        {
+            var apptToCopy = AppointmentList.FirstOrDefault(apt => (apt?.ID ?? 0) == appointment.ID);
+            if (apptToCopy != null)
+            {
+                var index = AppointmentList.IndexOf(apptToCopy);
+                AppointmentList.RemoveAt(index);
+                appointmentList.Insert(index, appointment);
+            }
+        }
         return appointment;
     }
 
     public Appointment? Delete(int appointmentID)
     {
         //find appointment by ID
-        var existingAppointment = appointmentList.FirstOrDefault(a => a?.ID == appointmentID);
+        var existingAppointment = appointmentList.FirstOrDefault(a => (a?.ID ?? 0) == appointmentID);
         if (existingAppointment == null) { return null; }
 
         //remove appointment from list

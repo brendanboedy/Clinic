@@ -13,5 +13,15 @@
         <Label Text="{Binding AssignedPatient.Name}"/>
         <Label Text="Physician:"/>
         <Label Text="{Binding AssignedPhysician.Name}"/>
+        <Label Text="Please Enter Appointment Date (YYYY/MM/DD):"/>
+        <Entry Text="{Binding AppointmentDate}"/>
+        <Label Text="Please Enter Appointment Start Time (24:00):"/>
+        <Entry Text="{Binding AppointmentStartTime}"/>
+        <Button 
+            Text="Add/Update Appointment"
+            Clicked="addAppointmentClicked"/>
+        <Button 
+            Text="Cancel"
+            Clicked="cancelClicked"/>
     </VerticalStackLayout>
 </ContentPage>

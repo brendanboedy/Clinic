@@ -13,10 +13,13 @@ public partial class AppointmentView : ContentPage
 
     private void editClicked(object sender, EventArgs e)
     {
+        var selectedID = (BindingContext as AppointmentViewModel)?.SelectedAppointment?.Model?.ID ?? 0;
+        Shell.Current.GoToAsync($"//AddAppointment?AppointmentID={selectedID}");
     }
 
     private void deleteClicked(object sender, EventArgs e)
     {
+        (BindingContext as AppointmentViewModel)?.Delete();
     }
 
     private void backClicked(object sender, EventArgs e)
@@ -32,5 +35,10 @@ public partial class AppointmentView : ContentPage
     private void createApptClicked(object sender, EventArgs e)
     {
         (BindingContext as AppointmentViewModel)?.AddAppointmentCheck();
+    }
+
+    private void inlineDeleteClicked(object sender, EventArgs e)
+    {
+        (BindingContext as AppointmentViewModel)?.Refresh();
     }
 }

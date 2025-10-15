@@ -26,8 +26,22 @@ public partial class AddAppointmentView : ContentPage
 		//update existing appointment
 		else
 		{
-			BindingContext = new Appointment(AppointmentID, PatientID, PhysicianID);
+			BindingContext = new Appointment(AppointmentID);
 		}
+    }
+
+    private void addAppointmentClicked(object sender, EventArgs e)
+	{
+		//add the appointment
+		AppointmentServiceProxy.Current.AddOrUpdate(BindingContext as Appointment);
+
+		//go back to Appointment View
+		Shell.Current.GoToAsync("//Appointments");
+    }
+
+    private void cancelClicked(object sender, EventArgs e)
+	{
+		Shell.Current.GoToAsync("//Appointments");
     }
 
 }

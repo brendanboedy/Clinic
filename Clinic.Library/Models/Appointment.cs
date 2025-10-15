@@ -9,36 +9,42 @@ public class Appointment
     public DateOnly? AppointmentDate { get; set; }
     public TimeOnly? AppointmentStartTime { get; set; }
     public TimeOnly? AppointmentEndTime { get; set; }
-    public Patient? AssignedPatient;
-    public Physician? AssignedPhysician;
+    public Patient? AssignedPatient { get; set; }
+    public Physician? AssignedPhysician { get; set; }
 
     //ToString Override
     public override string ToString()
     {
-        return $"{ID}. {AppointmentDate} - Patient ID: {AssignedPatient?.ID}, Physician ID: {AssignedPhysician?.ID}\n" +
-            $"Start Time: {AppointmentStartTime}, End Time: {AppointmentEndTime}\n";
+        return $"{ID}. Patient: {AssignedPatient?.Name}, Physician: {AssignedPhysician?.Name},\n" +
+            "Date: {AppointmentDate}, Time: {AppointmentStartTime}";
     }
     public Appointment() { }
 
-    public Appointment(int apID, int patID, int phyID)
+    //display property
+    public string Display
+    {
+        get
+        {
+            return ToString();
+        }
+    }
+    public Appointment(int apID)
     {
         var appointmentCopy = AppointmentServiceProxy
             .Current
             .AppointmentList
             .FirstOrDefault(a => (a?.ID ?? 0) == apID);
-        //assign appointment to appointment to copy if it exists
+        //get patient and physician of appointment
+        int patID = appointmentCopy?.AssignedPatient?.ID ?? 0;
+        int phyID = appointmentCopy?.AssignedPhysician?.ID ?? 0;
+
+        //assign appointment to appointmentCopy if it exists
         if (appointmentCopy != null)
         {
             ID = appointmentCopy.ID;
             AppointmentDate = appointmentCopy.AppointmentDate;
             AppointmentStartTime = appointmentCopy.AppointmentStartTime;
             AppointmentEndTime = appointmentCopy.AppointmentEndTime;
-            AssignedPatient = appointmentCopy.AssignedPatient;
-            AssignedPhysician = appointmentCopy.AssignedPhysician;
-        }
-        //assign corresponding patient and physician
-        else
-        {
             AssignedPatient = PatientServiceProxy.Current.PatientList.FirstOrDefault(p => (p?.ID ?? 0) == patID);
             AssignedPhysician = PhysicianServiceProxy.Current.PhysicianList.FirstOrDefault(p => (p?.ID ?? 0) == phyID);
         }

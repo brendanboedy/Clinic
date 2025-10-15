@@ -13,8 +13,8 @@
         <!-- patients and physicians display only, cannot edit here -->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -71,19 +71,24 @@
                             <!-- internal grid for inline buttons -->
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Label
                                     Text="{Binding Model.Display}"
                                     Grid.Column="0"/>
                                 <Button
                                     Text="Edit"
-                                    Grid.Column="1"/>
+                                    Grid.Column="1"
+                                    Command="{Binding EditCommand}"
+                                    CommandParameter="{Binding}"/>
                                 <Button
                                     Text="Delete"
-                                    Grid.Column="2"/>
+                                    Grid.Column="2"
+                                    Command="{Binding DeleteCommand}"
+                                    CommandParameter="{Binding}"
+                                    Clicked="inlineDeleteClicked"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -114,7 +119,7 @@
                 <Entry
                     Grid.Column="1"
                     Grid.Row="0"
-                    Text="{Binding PatientID}"/>
+                    Text="{Binding patientID}"/>
                 <Label
                     Grid.Column="0"
                     Grid.Row="1"
@@ -122,7 +127,7 @@
                 <Entry
                     Grid.Column="1"
                     Grid.Row="1"
-                    Text="{Binding PhysicianID}"/>
+                    Text="{Binding physicianID}"/>
             </Grid>
             <Button
                 Grid.Column="1"
