@@ -64,7 +64,8 @@
             <ListView
                 Grid.Row="1"
                 Grid.Column="2"
-                ItemsSource ="{Binding Appointments}">
+                ItemsSource ="{Binding Appointments}"
+                SelectedItem="{Binding SelectedAppointment}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

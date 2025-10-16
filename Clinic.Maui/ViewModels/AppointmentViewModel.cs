@@ -92,7 +92,7 @@ public class AppointmentViewModel : INotifyPropertyChanged
             {
                 ErrorLabelVisibility = false;
             }
-            Shell.Current.GoToAsync($"//AddAppointment?PatientID={thePatient.ID}&PhysicianID={thePhysician.ID}&AppointmentID=0");
+            Shell.Current.GoToAsync($"//AddAppointment?PatientID={patientID}&PhysicianID={physicianID}&AppointmentID=0");
         }
         
     }

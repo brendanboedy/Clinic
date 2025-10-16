@@ -16,6 +16,21 @@ public partial class AddAppointmentView : ContentPage
 	public int PhysicianID { get; set; }
 	public int AppointmentID { get; set; }
 
+	public string? patientName
+	{
+		get
+		{
+			return (BindingContext as Appointment)?.AssignedPatient?.Name;
+		}
+	}
+	public string? physicianName
+    {
+        get
+        {
+			return (BindingContext as Appointment)?.AssignedPhysician?.Name;
+        }
+    }
+
     private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
 	{
 		//create new appointment

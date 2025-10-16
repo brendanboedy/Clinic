@@ -11,8 +11,8 @@
             HorizontalOptions="Center" />
         <Label Text="Name"/>
         <Entry Text="{Binding Name}"/>
-        <Label Text="Date Of Birth (YYYY/MM/DD)"/>
-        <Entry Text="{Binding DateOfBirth}"/>
+        <Label Text="Date Of Birth"/>
+        <DatePicker Date="{Binding DateOfBirth}"/>
         <Label Text="Race (Optional)"/>
         <Entry Text="{Binding Race}"/>
         <Label Text="Gender (Optional)"/>
