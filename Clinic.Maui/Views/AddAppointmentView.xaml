@@ -10,9 +10,9 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Patient:"/>
-        <Label Text="{Binding AssignedPatient.Name}"/>
+        <Label Text="{Binding patientName}"/>
         <Label Text="Physician:"/>
-        <Label Text="{Binding AssignedPhysician.Name}"/>
+        <Label Text="{Binding physicianName}"/>
         <Label Text="Please Enter Appointment Date:"/>
         <DatePicker Date="{Binding AppointmentDate}"/>
         <Label Text="Please Enter Appointment Start Time:"/>

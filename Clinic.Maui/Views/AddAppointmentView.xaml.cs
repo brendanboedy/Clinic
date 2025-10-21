@@ -8,13 +8,29 @@ namespace Clinic.Maui.Views;
 [QueryProperty(nameof(AppointmentID), "AppointmentID")]
 public partial class AddAppointmentView : ContentPage
 {
+	public int PatientID { get; set; }
+	public int PhysicianID { get; set; }
+	public int AppointmentID { get; set; }
 	public AddAppointmentView()
 	{
 		InitializeComponent();
 	}
-	public int PatientID { get; set; }
-	public int PhysicianID { get; set; }
-	public int AppointmentID { get; set; }
+
+	public string? patientName
+	{
+		get
+		{
+			return (BindingContext as Appointment)?.AssignedPatient?.Name;
+		}
+	}
+	
+	public string? physicianName
+    {
+        get
+        {
+			return (BindingContext as Appointment)?.AssignedPhysician?.Name;
+        }
+    }
 
     private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
 	{
