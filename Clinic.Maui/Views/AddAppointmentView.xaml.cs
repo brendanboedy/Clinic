@@ -3,10 +3,7 @@ using Clinic.Library.Services;
 
 namespace Clinic.Maui.Views;
 
-[QueryProperty(nameof(PatientID), "PatientID")]
-[QueryProperty(nameof(PhysicianID), "PhysicianID")]
-[QueryProperty(nameof(AppointmentID), "AppointmentID")]
-public partial class AddAppointmentView : ContentPage
+public partial class AddAppointmentView : ContentPage, IQueryAttributable
 {
 	public int PatientID { get; set; }
 	public int PhysicianID { get; set; }
@@ -32,20 +29,6 @@ public partial class AddAppointmentView : ContentPage
         }
     }
 
-    private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
-	{
-		//create new appointment
-		if (AppointmentID == 0)
-		{
-			BindingContext = new Appointment(PatientID, PhysicianID);
-		}
-		//update existing appointment
-		else
-		{
-			BindingContext = new Appointment(AppointmentID);
-		}
-    }
-
     private void addAppointmentClicked(object sender, EventArgs e)
 	{
 		//add the appointment
@@ -60,4 +43,23 @@ public partial class AddAppointmentView : ContentPage
 		Shell.Current.GoToAsync("//Appointments");
     }
 
+	//content page runs this function first for attributes
+	public void ApplyQueryAttributes(IDictionary<string, object> query)
+	{
+		//assign query properties
+		PatientID = (int)query["PatientID"];
+		PhysicianID = (int)query["PhysicianID"];
+		AppointmentID = (int)query["AppointmentID"];
+
+		//create new appointment
+		if (AppointmentID == 0)
+		{
+			BindingContext = new Appointment(PatientID, PhysicianID);
+		}
+		//update existing appointment
+		else
+		{
+			BindingContext = new Appointment(AppointmentID);
+		}
+	}
 }

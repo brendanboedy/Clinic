@@ -16,7 +16,7 @@ public class Appointment
     public override string ToString()
     {
         return $"{ID}. Patient: {AssignedPatient?.Name}, Physician: {AssignedPhysician?.Name}" +
-        "\nDate: {AppointmentDate:MM/DD/YYYY}, Time: {AppointmentStartTime:00:00}";
+        $"\nDate: {AppointmentDate:MM/dd/yyyy}, Time: {AppointmentStartTime?.ToString("HH:mm tt") ?? ""}";
     }
 
     //display property

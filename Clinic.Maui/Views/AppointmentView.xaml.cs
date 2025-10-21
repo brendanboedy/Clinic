@@ -14,7 +14,10 @@ public partial class AppointmentView : ContentPage
     private void editClicked(object sender, EventArgs e)
     {
         var selectedID = (BindingContext as AppointmentViewModel)?.SelectedAppointment?.Model?.ID ?? 0;
-        Shell.Current.GoToAsync($"//AddAppointment?AppointmentID={selectedID}");
+        Shell.Current.GoToAsync("//AddAppointment", new Dictionary<string, object>
+        {
+            ["AppointmentID"] = selectedID
+        });
     }
 
     private void deleteClicked(object sender, EventArgs e)

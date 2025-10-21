@@ -5,6 +5,7 @@ namespace Clinic.Maui.ViewModels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Clinic.Library.Models;
 using Clinic.Library.Services;
 
@@ -64,7 +65,7 @@ public class AppointmentViewModel : INotifyPropertyChanged
     }
 
     //function to check validity of entered IDs and print error message if invalid
-    public void AddAppointmentCheck()
+    public async Task AddAppointmentCheck()
     {
         //grab corresponding patient
         Patient? thePatient = PatientServiceProxy
@@ -92,7 +93,12 @@ public class AppointmentViewModel : INotifyPropertyChanged
             {
                 ErrorLabelVisibility = false;
             }
-            Shell.Current.GoToAsync($"//AddAppointment?PatientID={patientID}&PhysicianID={physicianID}&AppointmentID=0");
+            await Shell.Current.GoToAsync("//AddAppointment", new Dictionary<string, object>
+            {
+                ["PatientID"] = patientID,
+                ["PhysicianID"] = physicianID,
+                ["AppointmentID"] = 0
+            });
         }
         
     }

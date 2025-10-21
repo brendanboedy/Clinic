@@ -2,17 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Clinic.Maui.Views.AddAppointmentView"
-             Title="Create New Appointment or Update Existing Appointment!"
-             NavigatedTo="ContentPage_NavigatedTo">
+             Title="Create New Appointment or Update Existing Appointment!">
     <VerticalStackLayout>
         <Label 
             Text="Add/Edit an Appointment!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Patient:"/>
-        <Label Text="{Binding patientName}"/>
+        <Label Text="{Binding AssignedPatient.Name}"/>
         <Label Text="Physician:"/>
-        <Label Text="{Binding physicianName}"/>
+        <Label Text="{Binding AssignedPhysician.Name}"/>
         <Label Text="Please Enter Appointment Date:"/>
         <DatePicker Date="{Binding AppointmentDate}"/>
         <Label Text="Please Enter Appointment Start Time:"/>
