@@ -15,6 +15,7 @@ public class Appointment
     //ToString Override
     public override string ToString()
     {
+        //issue with AppointmentStartTime printing
         return $"{ID}. Patient: {AssignedPatient?.Name}, Physician: {AssignedPhysician?.Name}" +
         $"\nDate: {AppointmentDate:MM/dd/yyyy}, Time: {AppointmentStartTime?.ToString("HH:mm tt") ?? ""}";
     }
