@@ -26,7 +26,7 @@ public class AddAppointmentViewModel
     private void SetUpCommands()
     {
         DeleteCommand = new Command(DoDelete);
-        EditCommand = new Command((aavm) => DoEdit(aavm as AddAppointmentViewModel));
+        EditCommand = new Command(async (aavm) => await DoEdit(aavm as AddAppointmentViewModel));
 
     }
 
@@ -40,7 +40,7 @@ public class AddAppointmentViewModel
         }
     }
     //command funcitonality for edit inline button
-    private void DoEdit(AddAppointmentViewModel? aavm)
+    private async Task DoEdit(AddAppointmentViewModel? aavm)
     {
         if (aavm == null)
         {
@@ -48,6 +48,7 @@ public class AddAppointmentViewModel
         }
         //get selected ID and pass to AddPatients view
         var aptID = aavm?.Model?.ID ?? 0;
-        Shell.Current.GoToAsync($"//AddAppointment?AppointmentID={aptID}");
+        var route = $"//AddAppointment?AppointmentID={aptID}&_nonce={Guid.NewGuid()}";
+        await Shell.Current.GoToAsync(route);
     }
 }

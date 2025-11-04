@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Clinic.Maui.ViewModels;
 
 namespace Clinic.Maui.Views;
@@ -11,10 +12,14 @@ public partial class AppointmentView : ContentPage
 		BindingContext = new AppointmentViewModel();
 	}
 
-    private void editClicked(object sender, EventArgs e)
+    private async void editClicked(object sender, EventArgs e)
     {
         var selectedID = (BindingContext as AppointmentViewModel)?.SelectedAppointment?.Model?.ID ?? 0;
-        Shell.Current.GoToAsync("//AddAppointment", new Dictionary<string, object>
+        if(selectedID == 0)
+        {
+            return;
+        }
+        await Shell.Current.GoToAsync("//AddAppointment", new Dictionary<string, object>
         {
             ["AppointmentID"] = selectedID
         });

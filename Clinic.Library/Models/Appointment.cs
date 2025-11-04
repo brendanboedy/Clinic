@@ -8,6 +8,19 @@ public class Appointment
     public int ID { get; set; }
     public DateTime? AppointmentDate { get; set; }
     public TimeOnly? AppointmentStartTime { get; set; }
+    //property for conversion between TimePicker TimeSpan and TimeOnly AppointmentStartTime
+    public TimeSpan? AppointmentTimeSpan
+    {
+        get
+        {
+            return AppointmentStartTime?.ToTimeSpan() ?? new TimeSpan();
+        }
+        set
+        {
+            if(value != null)
+                AppointmentStartTime = TimeOnly.FromTimeSpan(value ?? new TimeSpan());
+        }
+    }
     public TimeOnly? AppointmentEndTime { get; set; }
     public Patient? AssignedPatient { get; set; }
     public Physician? AssignedPhysician { get; set; }
@@ -17,7 +30,7 @@ public class Appointment
     {
         //issue with AppointmentStartTime printing
         return $"{ID}. Patient: {AssignedPatient?.Name}, Physician: {AssignedPhysician?.Name}" +
-        $"\nDate: {AppointmentDate:MM/dd/yyyy}, Time: {AppointmentStartTime?.ToString("HH:mm tt") ?? ""}";
+        $"\nDate: {AppointmentDate:MM/dd/yyyy}, Time: {AppointmentStartTime?.ToString("hh:mm tt") ?? ""}";
     }
 
     //display property

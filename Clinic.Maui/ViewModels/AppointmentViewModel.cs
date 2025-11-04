@@ -97,8 +97,10 @@ public class AppointmentViewModel : INotifyPropertyChanged
             {
                 ["PatientID"] = patientID,
                 ["PhysicianID"] = physicianID,
-                ["AppointmentID"] = 0
+                ["AppointmentID"] = 0,
+                ["_Nonce"] = Guid.NewGuid().ToString()
             });
+            //Shell.Current.GoToAsync($"//AddAppointment?PatientID={patientID}&PhysicianID={physicianID}&AppointmentID=0");
         }
         
     }

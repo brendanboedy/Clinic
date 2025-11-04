@@ -1,5 +1,6 @@
 using Clinic.Library.Models;
 using Clinic.Library.Services;
+using Clinic.Maui.ViewModels;
 
 namespace Clinic.Maui.Views;
 
@@ -12,22 +13,6 @@ public partial class AddAppointmentView : ContentPage, IQueryAttributable
 	{
 		InitializeComponent();
 	}
-
-	public string? patientName
-	{
-		get
-		{
-			return (BindingContext as Appointment)?.AssignedPatient?.Name;
-		}
-	}
-	
-	public string? physicianName
-    {
-        get
-        {
-			return (BindingContext as Appointment)?.AssignedPhysician?.Name;
-        }
-    }
 
     private void addAppointmentClicked(object sender, EventArgs e)
 	{
@@ -46,20 +31,25 @@ public partial class AddAppointmentView : ContentPage, IQueryAttributable
 	//content page runs this function first for attributes
 	public void ApplyQueryAttributes(IDictionary<string, object> query)
 	{
-		//assign query properties
-		PatientID = (int)query["PatientID"];
-		PhysicianID = (int)query["PhysicianID"];
-		AppointmentID = (int)query["AppointmentID"];
+		// Reset first to force a fresh rebind on a reused ShellContent page
+		BindingContext = null;
 
-		//create new appointment
-		if (AppointmentID == 0)
+		int TryGetInt(string key)
+			=> query.TryGetValue(key, out var raw) && int.TryParse(raw?.ToString(), out var val) ? val : 0;
+		
+		var appointmentId = TryGetInt("AppointmentID");
+		var patientId     = TryGetInt("PatientID");
+		var physicianId   = TryGetInt("PhysicianID");
+
+		// EDIT: when AppointmentID > 0 we don't need patient/physician ids
+		if (appointmentId > 0)
 		{
-			BindingContext = new Appointment(PatientID, PhysicianID);
+			BindingContext = new Appointment(appointmentId);
+			return;
 		}
-		//update existing appointment
-		else
-		{
-			BindingContext = new Appointment(AppointmentID);
-		}
+
+		// NEW: AppointmentID == 0 -> we need patient/physician (but tolerate missing)
+		BindingContext = new Appointment(patientId, physicianId);
+
 	}
 }

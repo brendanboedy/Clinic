@@ -15,7 +15,7 @@
         <Label Text="Please Enter Appointment Date:"/>
         <DatePicker Date="{Binding AppointmentDate}"/>
         <Label Text="Please Enter Appointment Start Time:"/>
-        <TimePicker Time="{Binding AppointmentStartTime}"/>
+        <TimePicker Time="{Binding AppointmentTimeSpan}"/>
         <Button 
             Text="Add/Update Appointment"
             Clicked="addAppointmentClicked"/>
