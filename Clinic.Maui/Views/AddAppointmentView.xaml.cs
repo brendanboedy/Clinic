@@ -37,19 +37,19 @@ public partial class AddAppointmentView : ContentPage, IQueryAttributable
 		int TryGetInt(string key)
 			=> query.TryGetValue(key, out var raw) && int.TryParse(raw?.ToString(), out var val) ? val : 0;
 		
-		var appointmentId = TryGetInt("AppointmentID");
-		var patientId     = TryGetInt("PatientID");
-		var physicianId   = TryGetInt("PhysicianID");
+		AppointmentID = TryGetInt("AppointmentID");
+		PatientID     = TryGetInt("PatientID");
+		PhysicianID   = TryGetInt("PhysicianID");
 
 		// EDIT: when AppointmentID > 0 we don't need patient/physician ids
-		if (appointmentId > 0)
+		if (AppointmentID > 0)
 		{
-			BindingContext = new Appointment(appointmentId);
+			BindingContext = new Appointment(AppointmentID);
 			return;
 		}
 
 		// NEW: AppointmentID == 0 -> we need patient/physician (but tolerate missing)
-		BindingContext = new Appointment(patientId, physicianId);
+		BindingContext = new Appointment(PatientID, PhysicianID);
 
 	}
 }
