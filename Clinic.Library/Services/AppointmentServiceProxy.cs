@@ -1,5 +1,6 @@
 using System;
 using Clinic.Library.Models;
+using Clinic.Library.Utilities;
 
 namespace Clinic.Library.Services;
 
@@ -8,15 +9,10 @@ public class AppointmentServiceProxy
     //list to hold appointments in memory
     private List<Appointment?> appointmentList { get; set; }
 
-    //access to patient and physician service proxy
-    //private PatientServiceProxy _patientSvc;
-    //private PhysicianServiceProxy _physicianSvc;
-
     //private proxy constructor
     private AppointmentServiceProxy()
     {
-        //_patientSvc = PatientServiceProxy.Current;
-        //_physicianSvc = PhysicianServiceProxy.Current;
+        var appointmentsResponse = new WebRequestHandler.Get("/Appointment");
         appointmentList = new List<Appointment?>();
     }
 
