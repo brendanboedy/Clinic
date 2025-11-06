@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
 //given web request handler class
-namespace Clinic.Library.Utilities
-{
+namespace Clinic.Library.Utilities;
     public class WebRequestHandler
     {
         private string host = "localhost";
@@ -97,4 +96,3 @@ namespace Clinic.Library.Utilities
             }
         }
     }
-}

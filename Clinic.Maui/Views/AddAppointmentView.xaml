@@ -9,13 +9,18 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Patient:"/>
-        <Label Text="{Binding AssignedPatient.Name}"/>
+        <Label Text="{Binding Model.AssignedPatient.Name}"/>
         <Label Text="Physician:"/>
-        <Label Text="{Binding AssignedPhysician.Name}"/>
+        <Label Text="{Binding Model.AssignedPhysician.Name}"/>
         <Label Text="Please Enter Appointment Date:"/>
-        <DatePicker Date="{Binding AppointmentDate}"/>
+        <DatePicker Date="{Binding Model.AppointmentDate}"/>
         <Label Text="Please Enter Appointment Start Time:"/>
-        <TimePicker Time="{Binding AppointmentTimeSpan}"/>
+        <TimePicker Time="{Binding Model.AppointmentTimeSpan}"/>
+        <!-- invisible label to report error message for scheduling conflicts -->
+        <Label 
+            Text="Invalid Date/Time; Please ensure all Appointments are M-F, 9:00am - 5:00pm, non-conflicting."
+            IsVisible="{Binding ErrorLabelVisibility}"
+            HorizontalOptions="Center"/>
         <Button 
             Text="Add/Update Appointment"
             Clicked="addAppointmentClicked"/>

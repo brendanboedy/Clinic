@@ -17,8 +17,12 @@ public class Appointment
         }
         set
         {
-            if(value != null)
+            if (value != null)
+            {
+                //set appointment start time and end time
                 AppointmentStartTime = TimeOnly.FromTimeSpan(value ?? new TimeSpan());
+                AppointmentEndTime = AppointmentStartTime.Value.AddHours(1);
+            }
         }
     }
     public TimeOnly? AppointmentEndTime { get; set; }

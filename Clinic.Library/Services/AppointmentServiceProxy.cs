@@ -1,6 +1,7 @@
 using System;
 using Clinic.Library.Models;
 using Clinic.Library.Utilities;
+using Newtonsoft.Json;
 
 namespace Clinic.Library.Services;
 
@@ -12,8 +13,12 @@ public class AppointmentServiceProxy
     //private proxy constructor
     private AppointmentServiceProxy()
     {
-        var appointmentsResponse = new WebRequestHandler.Get("/Appointment");
         appointmentList = new List<Appointment?>();
+        var appointmentsResponse = new WebRequestHandler().Get("/Appointment").Result;
+        if (appointmentsResponse != null)
+        {
+            appointmentList = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentsResponse);
+        }
     }
 
     //singleton instance and lock object
@@ -50,7 +55,6 @@ public class AppointmentServiceProxy
         {
             return null;
         }
-
         //assign ID for new appointments
         if (appointment.ID <= 0)
         {

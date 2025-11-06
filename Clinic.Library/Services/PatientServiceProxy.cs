@@ -1,6 +1,8 @@
 using System;
 using System.Data;
 using Clinic.Library.Models;
+using Clinic.Library.Utilities;
+using Newtonsoft.Json;
 
 namespace Clinic.Library.Services;
 
@@ -22,6 +24,11 @@ public class PatientServiceProxy
     private PatientServiceProxy()
     {
         patientList = new List<Patient?>();
+        var patientsResponse = new WebRequestHandler().Get("/Patient").Result;
+        if (patientsResponse != null)
+        {
+            patientList = JsonConvert.DeserializeObject<List<Patient?>>(patientsResponse);
+        }
     }
 
     private static PatientServiceProxy? instance;

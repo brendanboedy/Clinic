@@ -1,24 +1,131 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Clinic.Library.Models;
 using Clinic.Library.Services;
 
 namespace Clinic.Maui.ViewModels;
 
-public class AddAppointmentViewModel
+public class AddAppointmentViewModel : INotifyPropertyChanged
 {
     public AddAppointmentViewModel()
     {
         Model = new Appointment();
+        ErrorLabelVisibility = false;
         SetUpCommands();
     }
     public AddAppointmentViewModel(Appointment? model)
     {
         Model = model;
+        ErrorLabelVisibility = false;
         SetUpCommands();
     }
 
+    //property for view model's appointment
     public Appointment? Model { get; set; }
+
+    //property for visibility of error message on AddAppointmentView
+    private bool errorLabelVisibility;
+    public bool ErrorLabelVisibility
+    {
+        get { return errorLabelVisibility; }
+        set
+        {
+            if (errorLabelVisibility != value)
+            {
+                errorLabelVisibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+    }
+
+    //function to check appointment characteristics
+    //checking valid date and time
+    public bool CheckConstraints()
+    {
+        //make sure model and its necessary characteristics not null
+        if (Model == null || Model.AppointmentDate == null || Model.AppointmentStartTime == null)
+        {
+            //make error label visibility true
+            ErrorLabelVisibility = true;
+            return false;
+        }
+        //make sure day of week M-F
+        else if (Model.AppointmentDate.Value.DayOfWeek == DayOfWeek.Saturday ||
+                Model.AppointmentDate.Value.DayOfWeek == DayOfWeek.Sunday)
+        {
+            //invalid date, make error label visible
+            ErrorLabelVisibility = true;
+            return false;
+        }
+        //make sure appointment time between 9-5
+        else if (!IsWithinBusinessHours())
+        {
+            //invalid time return false
+            ErrorLabelVisibility = true;
+            return false;
+        }
+        //make sure appointments not conflicting
+        else if (!noOtherAppointments())
+        {
+            //conflicting with existing appointment return false
+            ErrorLabelVisibility = true;
+            return false;
+        }
+        //passed constraints return true
+        ErrorLabelVisibility = false;
+        return true;
+    }
+
+    //method to check business hours
+    public bool IsWithinBusinessHours()
+    {
+        TimeOnly start = new(9, 0);
+        TimeOnly end = new(17, 0);
+        //nullable ok - nested method - will only be called if AppointmentStartTime != null
+        var time = Model.AppointmentStartTime.Value;
+        return time >= start && time <= end;
+    }
+
+    public bool noOtherAppointments()
+    {
+        var appointments = AppointmentServiceProxy.Current.AppointmentList;
+        //check to see if any other appointments exist on the same date
+        foreach (var appointment in appointments)
+        {
+            //if updating appointment, skip check against itself
+            if ((appointment?.ID ?? 0) == Model.ID)
+            {
+                continue;
+            }
+            
+            //new appointment on same date as existing appointment
+            //check to see if new appointment start time is between existing appointment start and end time
+            //and if the physician IDs are the same
+            if (appointment.AppointmentDate == Model.AppointmentDate && Conflicting(Model, appointment))
+            {
+                //conflicting dates, times, physicians
+                return false;
+            }
+        }
+        //no conflicting appointments found
+        return true;
+    }
+    //method to check for existing appointments conflicting
+    public bool Conflicting(Appointment newAppt, Appointment existingAppt)
+    {
+        //Astart < Bend && Bstart < Aend
+        if (newAppt.AssignedPhysician == existingAppt.AssignedPhysician
+            && newAppt.AppointmentStartTime <= existingAppt.AppointmentEndTime
+            && existingAppt.AppointmentStartTime <= newAppt.AppointmentEndTime)
+        {
+            //overlapping appointments returnt rue
+            return true;
+        }
+        //non conflicting return false
+        return false;
+    }
 
     //command properties for inline buttons and binding
     public ICommand? DeleteCommand { get; set; }
@@ -50,5 +157,11 @@ public class AddAppointmentViewModel
         var aptID = aavm?.Model?.ID ?? 0;
         var route = $"//AddAppointment?AppointmentID={aptID}&_nonce={Guid.NewGuid()}";
         await Shell.Current.GoToAsync(route);
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
