@@ -1,4 +1,5 @@
 using Clinic.API.Enterprise;
+using Clinic.Library.Data;
 using Clinic.Library.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,5 +41,12 @@ public class AppointmentController : ControllerBase
     public Appointment? AddOrUpdate([FromBody] Appointment appointment)
     {
         return new AppointmentEC().AddOrUpdate(appointment);
+    }
+
+    //return appointment by search query
+    [HttpPost("Search")]
+    public IEnumerable<Appointment?> Search(QueryRequest query)
+    {
+        return new AppointmentEC().Search(query?.Content ?? string.Empty);
     }
 }

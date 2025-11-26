@@ -70,5 +70,11 @@ public class AppointmentEC
         return appointment;
     }
 
-    
+    //return appointment by search query
+    public IEnumerable<Appointment?> Search(string query)
+    {
+        return FakeDatabase.Appointments.Where(p => 
+            (p?.AssignedPatient?.Name?.ToUpper()?.Contains(query?.ToUpper() ?? string.Empty) ?? false)
+            || (p?.AssignedPhysician?.Name?.ToUpper()?.Contains(query?.ToUpper() ?? string.Empty) ?? false));
+    }
 }

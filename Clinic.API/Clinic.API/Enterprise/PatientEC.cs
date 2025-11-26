@@ -68,10 +68,4 @@ public class PatientEC
         //return added patient or patient to update
         return patient;
     }
-
-    public IEnumerable<Patient?> Search(string query)
-    {
-        return FakeDatabase.Patients.Where(p => (p?.Name?.ToUpper()?.Contains(query?.ToUpper() ?? string.Empty) ?? false));
-    }
-
 }

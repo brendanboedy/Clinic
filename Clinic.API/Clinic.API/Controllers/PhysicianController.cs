@@ -1,4 +1,5 @@
 using Clinic.API.Enterprise;
+using Clinic.Library.Data;
 using Clinic.Library.Models;
 using Microsoft.AspNetCore.Mvc;
 

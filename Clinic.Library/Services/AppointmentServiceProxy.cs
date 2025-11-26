@@ -1,4 +1,5 @@
 using System;
+using Clinic.Library.Data;
 using Clinic.Library.Models;
 using Clinic.Library.Utilities;
 using Newtonsoft.Json;
@@ -99,6 +100,15 @@ public class AppointmentServiceProxy
         //remove appointment from list
         appointmentList.Remove(existingAppointment);
         return existingAppointment;
+    }
+
+    public async Task<List<Appointment?>> Search(QueryRequest query)
+    {
+        var appointmentPayload = await new WebRequestHandler().Post("/Appointment/Search", query);
+        var appointmentFromServer = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentPayload);
+
+        appointmentList = appointmentFromServer;
+        return appointmentList;
     }
 
     public Appointment? GetByID(int ID)

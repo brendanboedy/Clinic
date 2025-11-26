@@ -41,10 +41,4 @@ public class PatientController : ControllerBase
     {
         return new PatientEC().AddOrUpdate(patient);
     }
-
-    [HttpPost("Search")]
-    public IEnumerable<Patient?> Search([FromBody] QueryRequest query)
-    {
-        return new PatientEC().Search(query.Content);
-    }
 }

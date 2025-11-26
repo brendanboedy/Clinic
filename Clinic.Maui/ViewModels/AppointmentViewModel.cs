@@ -15,6 +15,7 @@ public class AppointmentViewModel : INotifyPropertyChanged
     {
         ErrorLabelVisibility = false;
     }
+
     //list of current patients
     public ObservableCollection<Patient?> Patients
     {
@@ -31,6 +32,7 @@ public class AppointmentViewModel : INotifyPropertyChanged
             return new ObservableCollection<Physician?>(PhysicianServiceProxy.Current.PhysicianList);
         }
     }
+
     //list of current appointments
     public ObservableCollection<AddAppointmentViewModel?> Appointments
     {
@@ -48,6 +50,17 @@ public class AppointmentViewModel : INotifyPropertyChanged
     //public properties for binding entry for patient/physician ID
     public int patientID { get; set; }
     public int physicianID { get; set; }
+
+    //property for search bar
+    public string? Query { get; set;}
+
+    //method for search w query
+    /*public void Search()
+    {
+        var appointmentDTOs = AppointmentServiceProxy.Current.Search(new Clinic.Library.Data.QueryRequest { Content = Query }).Result;
+        Appointments = new ObservableCollection<AddAppointmentViewModel?>(appointmentDTOs.Select(a => new AddAppointmentViewModel(a)));
+        NotifyPropertyChanged(nameof(Appointments));
+    }*/
 
     //properties for visbility of error label
     private bool errorLabelVisibility;
