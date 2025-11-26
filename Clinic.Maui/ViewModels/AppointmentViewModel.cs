@@ -81,18 +81,12 @@ public class AppointmentViewModel : INotifyPropertyChanged
         //if either is null - change visibility of error label
         if (thePatient == null || thePhysician == null)
         {
-            if(ErrorLabelVisibility == false)
-            {
-                ErrorLabelVisibility = true;
-            }
+            ErrorLabelVisibility = true;
         }
         //collapse error label visibility, navigate to AddAppointmentView
         else
         {
-            if (ErrorLabelVisibility == true)
-            {
-                ErrorLabelVisibility = false;
-            }
+            ErrorLabelVisibility = false;
             await Shell.Current.GoToAsync("//AddAppointment", new Dictionary<string, object>
             {
                 ["PatientID"] = patientID,

@@ -1,7 +1,7 @@
 using Clinic.API.Enterprise;
 using Clinic.Library.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using Clinic.Library.Data;
 namespace Clinic.API.Controllers;
 
 [ApiController]
@@ -36,9 +36,15 @@ public class PatientController : ControllerBase
     }
 
     //add or update patient to database using EC
-    [HttpPost]
+    [HttpPost()]
     public Patient? AddOrUpdate([FromBody] Patient patient)
     {
         return new PatientEC().AddOrUpdate(patient);
+    }
+
+    [HttpPost("Search")]
+    public IEnumerable<Patient?> Search([FromBody] QueryRequest query)
+    {
+        return new PatientEC().Search(query.Content);
     }
 }
