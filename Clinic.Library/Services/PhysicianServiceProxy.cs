@@ -82,6 +82,8 @@ public class PhysicianServiceProxy
 
     public Physician? Delete(int physicianID)
     {
+        var response = new WebRequestHandler().Delete($"/Physician/{physicianID}").Result;
+
         var existingPhysician = physicianList.FirstOrDefault(p => p?.ID == physicianID);
         if (existingPhysician == null) { return null; }
 

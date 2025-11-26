@@ -95,6 +95,8 @@ public class PatientServiceProxy
 
     public Patient? Delete(int patientID)
     {
+        var response = new WebRequestHandler().Delete($"/Patient/{patientID}").Result;
+
         //find existing patient
         var existingPatient = patientList.FirstOrDefault(p => p?.ID == patientID);
         if (existingPatient == null) { return null; }

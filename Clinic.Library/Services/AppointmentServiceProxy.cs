@@ -91,6 +91,7 @@ public class AppointmentServiceProxy
 
     public Appointment? Delete(int appointmentID)
     {
+        var response = new WebRequestHandler().Delete($"/Appointment/{appointmentID}").Result;
         //find appointment by ID
         var existingAppointment = appointmentList.FirstOrDefault(a => (a?.ID ?? 0) == appointmentID);
         if (existingAppointment == null) { return null; }
