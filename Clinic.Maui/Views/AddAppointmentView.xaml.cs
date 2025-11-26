@@ -16,16 +16,7 @@ public partial class AddAppointmentView : ContentPage, IQueryAttributable
 
     private void addAppointmentClicked(object sender, EventArgs e)
 	{
-		//check to make sure date/time is valid
-		if ((BindingContext as AddAppointmentViewModel).CheckConstraints() == false)
-        {
-			return;
-        }
-		//add the appointment
-		AppointmentServiceProxy.Current.AddOrUpdate((BindingContext as AddAppointmentViewModel)?.Model);
-
-		//go back to Appointment View
-		Shell.Current.GoToAsync("//Appointments");
+		var response = (BindingContext as AddAppointmentViewModel)?.AddNewAppointment();
     }
 
     private void cancelClicked(object sender, EventArgs e)

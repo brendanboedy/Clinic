@@ -14,7 +14,7 @@ public class PhysicianServiceProxy
         var physiciansResponse = new WebRequestHandler().Get("/Physician").Result;
         if (physiciansResponse != null)
         {
-            physicianList = JsonConvert.DeserializeObject<List<Physician?>>(physiciansResponse);
+            physicianList = JsonConvert.DeserializeObject<List<Physician?>>(physiciansResponse) ?? new List<Physician?>();
         }
     }
 
@@ -40,7 +40,7 @@ public class PhysicianServiceProxy
         get { return physicianList; }
     }
 
-    public Physician? AddOrUpdate(Physician? physician)
+    public async Task<Physician?> AddOrUpdate(Physician? physician)
     {
         //make sure physician not null
         if (physician == null)
@@ -48,6 +48,8 @@ public class PhysicianServiceProxy
             return null;
         }
 
+        var physicianPayload = await new WebRequestHandler().Post("/Physician", physician);
+        var physicianFromServer = JsonConvert.DeserializeObject<Physician>(physicianPayload);
         //assign ID
         if (physician.ID <= 0)
         {
@@ -62,7 +64,7 @@ public class PhysicianServiceProxy
                 maxID = 0;
             }
             physician.ID = ++maxID;
-            physicianList.Add(physician);
+            physicianList.Add(physicianFromServer);
         }
         else
         {

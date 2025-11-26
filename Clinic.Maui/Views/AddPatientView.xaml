@@ -10,17 +10,17 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Name"/>
-        <Entry Text="{Binding Name}"/>
+        <Entry Text="{Binding Model.Name}"/>
         <Label Text="Date Of Birth"/>
-        <DatePicker Date="{Binding DateOfBirth}"/>
+        <DatePicker Date="{Binding Model.DateOfBirth}"/>
         <Label Text="Race (Optional)"/>
-        <Entry Text="{Binding Race}"/>
+        <Entry Text="{Binding Model.Race}"/>
         <Label Text="Gender (Optional)"/>
-        <Entry Text="{Binding Gender}"/>
+        <Entry Text="{Binding Model.Gender}"/>
         <Label Text="Address (Optional)"/>
-        <Entry Text="{Binding Address}"/>
+        <Entry Text="{Binding Model.Address}"/>
         <Label Text="Patient Notes (Optional)"/>
-        <Entry Text="{Binding Notes}"/>
+        <Entry Text="{Binding Model.Notes}"/>
         <Button Text="Add" Clicked="addClicked"/>
         <Button Text="Cancel" Clicked="cancelClicked"/>
     </VerticalStackLayout>

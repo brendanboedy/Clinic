@@ -17,7 +17,7 @@ public class AppointmentServiceProxy
         var appointmentsResponse = new WebRequestHandler().Get("/Appointment").Result;
         if (appointmentsResponse != null)
         {
-            appointmentList = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentsResponse);
+            appointmentList = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentsResponse) ?? new List<Appointment?>();
         }
     }
 
@@ -48,17 +48,22 @@ public class AppointmentServiceProxy
         get { return appointmentList; }
     }
 
-    public Appointment? AddOrUpdate(Appointment? appointment)
+    public async Task<Appointment?> AddOrUpdate(Appointment? appointment)
     {
         //make sure appointment not null
         if (appointment == null)
         {
             return null;
         }
+
+        //post on API
+        var appointmentPayload = await new WebRequestHandler().Post("/Appointment", appointment);
+        var appointmentFromServer = JsonConvert.DeserializeObject<Appointment>(appointmentPayload);
+
         //assign ID for new appointments
         if (appointment.ID <= 0)
         {
-            int maxID = -1;
+            /*int maxID = -1;
             if (appointmentList.Any())
             {
                 maxID = appointmentList.Select(a => a?.ID ?? -1).Max();
@@ -67,8 +72,8 @@ public class AppointmentServiceProxy
             {
                 maxID = 0;
             }
-            appointment.ID = ++maxID;
-            appointmentList.Add(appointment);
+            appointment.ID = ++maxID;*/
+            appointmentList.Add(appointmentFromServer);
         }
         //if appointment already exists, replace w/ new updated appointment
         else

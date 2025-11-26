@@ -1,5 +1,6 @@
 using Clinic.Library.Models;
 using Clinic.Library.Services;
+using Clinic.Maui.ViewModels;
 
 namespace Clinic.Maui.Views;
 
@@ -13,25 +14,9 @@ public partial class AddPhysicianView : ContentPage
 		InitializeComponent();
 	}
 
-	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
-	{
-		if (PhysicianID == 0)
-		{
-			BindingContext = new Physician();
-		}
-        else
-        {
-			BindingContext = new Physician(PhysicianID);
-        }
-	}
-
 	private void addClicked(object sender, EventArgs e)
 	{
-		//add physician to list
-		PhysicianServiceProxy.Current.AddOrUpdate(BindingContext as Physician);
-
-		//go back to physician view
-		Shell.Current.GoToAsync("//Physicians");
+		var response = (BindingContext as AddPhysicianViewModel)?.AddNewPhysician();
     }
 
 	private void cancelClicked(object sender, EventArgs e)
@@ -39,4 +24,16 @@ public partial class AddPhysicianView : ContentPage
 		//go back to physician view
 		Shell.Current.GoToAsync("//Physicians");
     }
+
+	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
+	{
+		if (PhysicianID == 0)
+		{
+			BindingContext = new AddPhysicianViewModel(new Physician());
+		}
+        else
+        {
+			BindingContext = new AddPhysicianViewModel(new Physician(PhysicianID));
+        }
+	}
 }

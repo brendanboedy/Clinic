@@ -27,7 +27,7 @@ public class PatientServiceProxy
         var patientsResponse = new WebRequestHandler().Get("/Patient").Result;
         if (patientsResponse != null)
         {
-            patientList = JsonConvert.DeserializeObject<List<Patient?>>(patientsResponse);
+            patientList = JsonConvert.DeserializeObject<List<Patient?>>(patientsResponse) ?? new List<Patient?>();
         }
     }
 
@@ -51,7 +51,7 @@ public class PatientServiceProxy
         }
     }
 
-    public Patient? AddOrUpdate(Patient? patient)
+    public async Task<Patient?> AddOrUpdate(Patient? patient)
     {
         //make sure patient not null
         if (patient == null)
@@ -59,11 +59,14 @@ public class PatientServiceProxy
             return null;
         }
 
+        var patientPayload = await new WebRequestHandler().Post("/Patient", patient);
+        var patientFromServer = JsonConvert.DeserializeObject<Patient>(patientPayload);
+
         //assign ID
         if (patient.ID <= 0)
         {
             //adding new patient
-            int maxID = -1;
+            /*int maxID = -1;
             if (patientList.Any())
             {
                 maxID = patientList.Select(p => p?.ID ?? -1).Max();
@@ -72,8 +75,8 @@ public class PatientServiceProxy
             {
                 maxID = 0;
             }
-            patient.ID = ++maxID;
-            patientList.Add(patient);
+            patient.ID = ++maxID;*/
+            patientList.Add(patientFromServer);
         }
         else
         {

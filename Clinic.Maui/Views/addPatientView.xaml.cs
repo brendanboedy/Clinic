@@ -20,22 +20,18 @@ public partial class AddPatientView : ContentPage
 
 	private void addClicked(object sender, EventArgs e)
 	{
-		//add the patient
-		PatientServiceProxy.Current.AddOrUpdate(BindingContext as Patient);
-
-		//go back to patient view page
-		Shell.Current.GoToAsync("//Patients");
+		var response = (BindingContext as AddPatientViewModel)?.AddNewPatient();
 	}
 
 	private void ContentPage_NavigatedTo(object sender, NavigatedToEventArgs e)
 	{
 		if (PatientID == 0)
 		{
-			BindingContext = new Patient();
+			BindingContext = new AddPatientViewModel(new Patient());
 		}
         else
         {
-			BindingContext = new Patient(PatientID);
+			BindingContext = new AddPatientViewModel(new Patient(PatientID));
         }
 	}
 }

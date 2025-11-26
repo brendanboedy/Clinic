@@ -40,6 +40,26 @@ public class AddAppointmentViewModel : INotifyPropertyChanged
         }
     }
 
+    //async function to add new appointment to server
+    public async Task<bool> AddNewAppointment()
+    {
+        try{
+            //check to make sure date/time is valid
+            if (CheckConstraints() == false)
+            {
+                return false;
+            }
+            //add the appointment
+            await AppointmentServiceProxy.Current.AddOrUpdate(Model);
+            //go back to Appointment View
+            await Shell.Current.GoToAsync("//Appointments");
+            return true;
+        } catch(Exception e)
+        {
+            return false;
+        }
+    }
+
     //function to check appointment characteristics
     //checking valid date and time
     public bool CheckConstraints()
@@ -153,7 +173,7 @@ public class AddAppointmentViewModel : INotifyPropertyChanged
         {
             return;
         }
-        //get selected ID and pass to AddPatients view
+        //get selected ID and pass to AddAppointment view
         var aptID = aavm?.Model?.ID ?? 0;
         var route = $"//AddAppointment?AppointmentID={aptID}&_nonce={Guid.NewGuid()}";
         await Shell.Current.GoToAsync(route);

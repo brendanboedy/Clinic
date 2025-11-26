@@ -21,6 +21,23 @@ public class AddPatientViewModel
 
     public Patient? Model { get; set; }
 
+    //method to add new patient to API
+    public async Task<bool> AddNewPatient()
+    {
+        try
+        {
+            //add the patient
+            await PatientServiceProxy.Current.AddOrUpdate(Model);
+            //go back to Patient View
+            await Shell.Current.GoToAsync("//Patients");
+            return true;
+        } catch (Exception e)
+        {
+            return false;
+        }
+        
+    }
+
     //command properties for inline buttons and binding
     public ICommand? DeleteCommand { get; set; }
     public ICommand? EditCommand { get; set; }

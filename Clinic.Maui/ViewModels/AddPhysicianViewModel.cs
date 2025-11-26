@@ -20,6 +20,21 @@ public class AddPhysicianViewModel
 
     public Physician? Model { get; set; }
 
+    //method to add physician to API
+    public async Task<bool> AddNewPhysician()
+    {
+        try
+        {
+            //add physician to list
+		    await PhysicianServiceProxy.Current.AddOrUpdate(Model);
+            //go back to physician view
+            await Shell.Current.GoToAsync("//Physicians");
+            return true;
+        } catch (Exception e)
+        {
+            return false;
+        }
+    }
     public ICommand? DeleteCommand { get; set; }
     public ICommand? EditCommand { get; set; }
     private void SetUpCommands()

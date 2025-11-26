@@ -10,11 +10,11 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label Text="Name"/>
-        <Entry Text="{Binding Name}"/>
+        <Entry Text="{Binding Model.Name}"/>
         <Label Text="License Number"/>
-        <Entry Text="{Binding LicenseNumber}"/>
+        <Entry Text="{Binding Model.LicenseNumber}"/>
         <Label Text="Specialty"/>
-        <Entry Text="{Binding Specialty}"/>
+        <Entry Text="{Binding Model.Specialty}"/>
         <!-- add button -->
         <Button
             Text="Add/Update Physician"
