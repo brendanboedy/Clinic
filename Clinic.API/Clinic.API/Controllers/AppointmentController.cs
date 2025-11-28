@@ -1,6 +1,7 @@
 using Clinic.API.Enterprise;
 using Clinic.Library.Data;
 using Clinic.Library.Models;
+using Clinic.Library.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.API.Controllers;
@@ -17,35 +18,35 @@ public class AppointmentController : ControllerBase
 
     //return list of appointments using EC
     [HttpGet]
-    public IEnumerable<Appointment> Get()
+    public IEnumerable<AppointmentDTO> Get()
     {
         return new AppointmentEC().GetAppointments();
     }
 
     //return appointment by id using EC
     [HttpGet("{id}")]
-    public Appointment? GetByID(int id)
+    public AppointmentDTO? GetByID(int id)
     {
         return new AppointmentEC().GetByID(id);
     }
 
     //delete appointment by id using EC
     [HttpDelete("{id}")]
-    public Appointment? Delete(int id)
+    public AppointmentDTO? Delete(int id)
     {
         return new AppointmentEC().Delete(id);
     }
 
     //add or update appointment using EC
     [HttpPost]
-    public Appointment? AddOrUpdate([FromBody] Appointment appointment)
+    public AppointmentDTO? AddOrUpdate([FromBody] AppointmentDTO appointment)
     {
         return new AppointmentEC().AddOrUpdate(appointment);
     }
 
     //return appointment by search query
     [HttpPost("Search")]
-    public IEnumerable<Appointment?> Search(QueryRequest query)
+    public IEnumerable<AppointmentDTO?> Search(QueryRequest query)
     {
         return new AppointmentEC().Search(query?.Content ?? string.Empty);
     }

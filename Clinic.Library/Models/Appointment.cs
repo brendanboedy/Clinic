@@ -1,4 +1,5 @@
 using System;
+using Clinic.Library.DTO;
 using Clinic.Library.Services;
 
 namespace Clinic.Library.Models;
@@ -28,6 +29,10 @@ public class Appointment
     public TimeOnly? AppointmentEndTime { get; set; }
     public Patient? AssignedPatient { get; set; }
     public Physician? AssignedPhysician { get; set; }
+
+    //pretend lots of fake legacy data - and thats why we made a DTO
+    //string legacy data 1
+    //string legacy data 2...
 
     //ToString Override
     public override string ToString()
@@ -68,4 +73,18 @@ public class Appointment
         AssignedPhysician = PhysicianServiceProxy.Current.PhysicianList.FirstOrDefault(p => (p?.ID ?? 0) == phyID);
     }
     public Appointment(){}
+
+    //conversion constructor from DTO to model
+    public Appointment(AppointmentDTO appointmentDTO)
+    {
+        ID = appointmentDTO.ID;
+        AppointmentDate = appointmentDTO.AppointmentDate;
+        AppointmentStartTime = appointmentDTO.AppointmentStartTime;
+        AppointmentEndTime = appointmentDTO.AppointmentEndTime;
+        AssignedPatient = appointmentDTO.AssignedPatient;
+        AssignedPhysician = appointmentDTO.AssignedPhysician;
+
+        //pull legacy data from database
+        //none for this model
+    }
 }

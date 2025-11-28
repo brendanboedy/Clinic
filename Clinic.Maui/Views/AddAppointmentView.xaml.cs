@@ -1,3 +1,4 @@
+using Clinic.Library.DTO;
 using Clinic.Library.Models;
 using Clinic.Library.Services;
 using Clinic.Maui.ViewModels;
@@ -40,12 +41,12 @@ public partial class AddAppointmentView : ContentPage, IQueryAttributable
 		// EDIT: when AppointmentID > 0 we don't need patient/physician ids
 		if (AppointmentID > 0)
 		{
-			BindingContext = new AddAppointmentViewModel(new Appointment(AppointmentID));
+			BindingContext = new AddAppointmentViewModel(new AppointmentDTO(AppointmentID));
 			return;
 		}
 
 		// NEW: AppointmentID == 0 -> we need patient/physician (but tolerate missing)
-		BindingContext = new AddAppointmentViewModel(new Appointment(PatientID, PhysicianID));
+		BindingContext = new AddAppointmentViewModel(new AppointmentDTO(PatientID, PhysicianID));
 
 	}
 }

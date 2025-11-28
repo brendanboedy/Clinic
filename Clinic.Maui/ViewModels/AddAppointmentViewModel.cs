@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Clinic.Library.DTO;
 using Clinic.Library.Models;
 using Clinic.Library.Services;
 
@@ -11,11 +12,11 @@ public class AddAppointmentViewModel : INotifyPropertyChanged
 {
     public AddAppointmentViewModel()
     {
-        Model = new Appointment();
+        Model = new AppointmentDTO();
         ErrorLabelVisibility = false;
         SetUpCommands();
     }
-    public AddAppointmentViewModel(Appointment? model)
+    public AddAppointmentViewModel(AppointmentDTO? model)
     {
         Model = model;
         ErrorLabelVisibility = false;
@@ -23,7 +24,7 @@ public class AddAppointmentViewModel : INotifyPropertyChanged
     }
 
     //property for view model's appointment
-    public Appointment? Model { get; set; }
+    public AppointmentDTO? Model { get; set; }
 
     //property for visibility of error message on AddAppointmentView
     private bool errorLabelVisibility;
@@ -133,7 +134,7 @@ public class AddAppointmentViewModel : INotifyPropertyChanged
         return true;
     }
     //method to check for existing appointments conflicting
-    public bool Conflicting(Appointment newAppt, Appointment existingAppt)
+    public bool Conflicting(AppointmentDTO newAppt, AppointmentDTO existingAppt)
     {
         //Astart < Bend && Bstart < Aend
         if (newAppt.AssignedPhysician == existingAppt.AssignedPhysician

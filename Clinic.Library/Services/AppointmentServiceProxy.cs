@@ -1,5 +1,6 @@
 using System;
 using Clinic.Library.Data;
+using Clinic.Library.DTO;
 using Clinic.Library.Models;
 using Clinic.Library.Utilities;
 using Newtonsoft.Json;
@@ -9,16 +10,16 @@ namespace Clinic.Library.Services;
 public class AppointmentServiceProxy
 {
     //list to hold appointments in memory
-    private List<Appointment?> appointmentList { get; set; }
+    private List<AppointmentDTO?> appointmentList { get; set; }
 
     //private proxy constructor
     private AppointmentServiceProxy()
     {
-        appointmentList = new List<Appointment?>();
+        appointmentList = new List<AppointmentDTO?>();
         var appointmentsResponse = new WebRequestHandler().Get("/Appointment").Result;
         if (appointmentsResponse != null)
         {
-            appointmentList = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentsResponse) ?? new List<Appointment?>();
+            appointmentList = JsonConvert.DeserializeObject<List<AppointmentDTO?>>(appointmentsResponse) ?? new List<AppointmentDTO?>();
         }
     }
 
@@ -44,12 +45,12 @@ public class AppointmentServiceProxy
     }
 
     //public getter to access private list
-    public List<Appointment?> AppointmentList
+    public List<AppointmentDTO?> AppointmentList
     {
         get { return appointmentList; }
     }
 
-    public async Task<Appointment?> AddOrUpdate(Appointment? appointment)
+    public async Task<AppointmentDTO?> AddOrUpdate(AppointmentDTO? appointment)
     {
         //make sure appointment not null
         if (appointment == null)
@@ -59,7 +60,7 @@ public class AppointmentServiceProxy
 
         //post on API
         var appointmentPayload = await new WebRequestHandler().Post("/Appointment", appointment);
-        var appointmentFromServer = JsonConvert.DeserializeObject<Appointment>(appointmentPayload);
+        var appointmentFromServer = JsonConvert.DeserializeObject<AppointmentDTO>(appointmentPayload);
 
         //assign ID for new appointments
         if (appointment.ID <= 0)
@@ -90,7 +91,7 @@ public class AppointmentServiceProxy
         return appointment;
     }
 
-    public Appointment? Delete(int appointmentID)
+    public AppointmentDTO? Delete(int appointmentID)
     {
         var response = new WebRequestHandler().Delete($"/Appointment/{appointmentID}").Result;
         //find appointment by ID
@@ -102,16 +103,17 @@ public class AppointmentServiceProxy
         return existingAppointment;
     }
 
-    public async Task<List<Appointment?>> Search(QueryRequest query)
+    //NONFUNCTIONAL - FIX 
+    public async Task<List<AppointmentDTO?>> Search(QueryRequest query)
     {
         var appointmentPayload = await new WebRequestHandler().Post("/Appointment/Search", query);
-        var appointmentsFromServer = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentPayload);
+        var appointmentsFromServer = JsonConvert.DeserializeObject<List<AppointmentDTO?>>(appointmentPayload);
 
         appointmentList = appointmentsFromServer;
         return appointmentList;
     }
 
-    public Appointment? GetByID(int ID)
+    public AppointmentDTO? GetByID(int ID)
     {
         if (ID <= 0)
         {
