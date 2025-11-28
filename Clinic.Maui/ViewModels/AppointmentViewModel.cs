@@ -14,35 +14,41 @@ public class AppointmentViewModel : INotifyPropertyChanged
     public AppointmentViewModel()
     {
         ErrorLabelVisibility = false;
-    }
-
-    //list of current patients
-    public ObservableCollection<Patient?> Patients
-    {
-        get
-        {
-            return new ObservableCollection<Patient?>(PatientServiceProxy.Current.PatientList);
-        }
-    }
-    //list of current physicians
-    public ObservableCollection<Physician?> Physicians
-    {
-        get
-        {
-            return new ObservableCollection<Physician?>(PhysicianServiceProxy.Current.PhysicianList);
-        }
-    }
-
-    //list of current appointments
-    public ObservableCollection<AddAppointmentViewModel?> Appointments
-    {
-        get
-        {
-            return new ObservableCollection<AddAppointmentViewModel?>
+        patients = new ObservableCollection<Patient?>(PatientServiceProxy.Current.PatientList);
+        physicians = new ObservableCollection<Physician?>(PhysicianServiceProxy.Current.PhysicianList);
+        appointments = new ObservableCollection<AddAppointmentViewModel?>
             (AppointmentServiceProxy
             .Current
             .AppointmentList
             .Select(ap => new AddAppointmentViewModel(ap)));
+    }
+
+    //list of current patients
+    private ObservableCollection<Patient?> patients;
+    public ObservableCollection<Patient?> Patients
+    {
+        get
+        {
+            return patients;
+        }
+    }
+    //list of current physicians
+    private ObservableCollection<Physician?> physicians;
+    public ObservableCollection<Physician?> Physicians
+    {
+        get
+        {
+            return physicians;
+        }
+    }
+
+    //list of current appointments
+    private ObservableCollection<AddAppointmentViewModel?> appointments;
+    public ObservableCollection<AddAppointmentViewModel?> Appointments
+    {
+        get
+        {
+            return appointments;
         }
     }
     //property for selected appointment
@@ -55,12 +61,25 @@ public class AppointmentViewModel : INotifyPropertyChanged
     public string? Query { get; set;}
 
     //method for search w query
-    /*public void Search()
+    public void Search()
     {
-        var appointmentDTOs = AppointmentServiceProxy.Current.Search(new Clinic.Library.Data.QueryRequest { Content = Query }).Result;
-        Appointments = new ObservableCollection<AddAppointmentViewModel?>(appointmentDTOs.Select(a => new AddAppointmentViewModel(a)));
+        //if search bar empty || null - show full list
+        if(Query == null || Query == "")
+        {
+            appointments = new ObservableCollection<AddAppointmentViewModel?>
+            (AppointmentServiceProxy
+            .Current
+            .AppointmentList
+            .Select(ap => new AddAppointmentViewModel(ap)));
+        }
+        else
+        {
+            //query contains a search - update entire appointment list
+            var appointmentDTOs = AppointmentServiceProxy.Current.Search(new Clinic.Library.Data.QueryRequest { Content = Query }).Result;
+            appointments = new ObservableCollection<AddAppointmentViewModel?>(appointmentDTOs.Select(a => new AddAppointmentViewModel(a)));
+        }
         NotifyPropertyChanged(nameof(Appointments));
-    }*/
+    }
 
     //properties for visbility of error label
     private bool errorLabelVisibility;
@@ -113,6 +132,15 @@ public class AppointmentViewModel : INotifyPropertyChanged
     }
     public void Refresh()
     {
+        //rebuild lists
+        patients = new ObservableCollection<Patient?>(PatientServiceProxy.Current.PatientList);
+        physicians = new ObservableCollection<Physician?>(PhysicianServiceProxy.Current.PhysicianList);
+        appointments = new ObservableCollection<AddAppointmentViewModel?>
+            (AppointmentServiceProxy
+            .Current
+            .AppointmentList
+            .Select(ap => new AddAppointmentViewModel(ap)));
+        //notify property changed
         NotifyPropertyChanged(nameof(Patients));
         NotifyPropertyChanged(nameof(Physicians));
         NotifyPropertyChanged(nameof(Appointments));

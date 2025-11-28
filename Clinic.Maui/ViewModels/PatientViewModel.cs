@@ -9,23 +9,33 @@ namespace Clinic.Maui.ViewModels;
 
 public class PatientViewModel : INotifyPropertyChanged
 {
+    public PatientViewModel()
+    {
+        patients = new ObservableCollection<AddPatientViewModel?>
+            (PatientServiceProxy
+            .Current
+            .PatientList
+            .Select(p => new AddPatientViewModel(p)));
+    }
     //ItemsSource Binding - list of patients
+    private ObservableCollection<AddPatientViewModel?> patients;
     public ObservableCollection<AddPatientViewModel?> Patients
     {
         get
         {
             //access private list connected to service proxy
-            return new ObservableCollection<AddPatientViewModel?>
-                (PatientServiceProxy
-                .Current
-                .PatientList
-                .Select(p => new AddPatientViewModel(p)));
+            return patients;
         }
     }
     //SelectedItem in patient view
     public AddPatientViewModel? SelectedPatient { get; set; }
     public void Refresh()
     {
+        patients = new ObservableCollection<AddPatientViewModel?>
+            (PatientServiceProxy
+            .Current
+            .PatientList
+            .Select(p => new AddPatientViewModel(p)));
         NotifyPropertyChanged(nameof(Patients));
     }
     public void Delete()

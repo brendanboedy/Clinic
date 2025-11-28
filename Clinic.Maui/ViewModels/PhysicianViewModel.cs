@@ -10,22 +10,32 @@ namespace Clinic.Maui.ViewModels;
 
 public class PhysicianViewModel : INotifyPropertyChanged
 {
-    //ItemsSource Binding
-    public ObservableCollection<AddPhysicianViewModel?> Physicians
+    public PhysicianViewModel()
     {
-        get
-        {
-            return new ObservableCollection<AddPhysicianViewModel?>
+        physicians = new ObservableCollection<AddPhysicianViewModel?>
             (PhysicianServiceProxy
             .Current
             .PhysicianList
             .Select(p => new AddPhysicianViewModel(p)));
+    }
+    //ItemsSource Binding
+    private ObservableCollection<AddPhysicianViewModel?> physicians;
+    public ObservableCollection<AddPhysicianViewModel?> Physicians
+    {
+        get
+        {
+            return physicians;
         }
     }
     //ItemSelected Binding
     public AddPhysicianViewModel? SelectedPhysician { get; set; }
     public void Refresh()
     {
+        physicians= new ObservableCollection<AddPhysicianViewModel?>
+            (PhysicianServiceProxy
+            .Current
+            .PhysicianList
+            .Select(p => new AddPhysicianViewModel(p)));
         NotifyPropertyChanged(nameof(Physicians));
     }
     public void Delete()

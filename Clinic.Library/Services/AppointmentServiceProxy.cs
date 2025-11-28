@@ -105,9 +105,9 @@ public class AppointmentServiceProxy
     public async Task<List<Appointment?>> Search(QueryRequest query)
     {
         var appointmentPayload = await new WebRequestHandler().Post("/Appointment/Search", query);
-        var appointmentFromServer = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentPayload);
+        var appointmentsFromServer = JsonConvert.DeserializeObject<List<Appointment?>>(appointmentPayload);
 
-        appointmentList = appointmentFromServer;
+        appointmentList = appointmentsFromServer;
         return appointmentList;
     }
 
