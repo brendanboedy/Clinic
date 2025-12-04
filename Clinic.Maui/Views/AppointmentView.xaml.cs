@@ -50,8 +50,9 @@ public partial class AppointmentView : ContentPage
         (BindingContext as AppointmentViewModel)?.Refresh();
     }
 
+    /*
     private void SearchClicked(object sender, EventArgs e)
     {
         (BindingContext as AppointmentViewModel)?.Search();
-    }
+    } */
 }

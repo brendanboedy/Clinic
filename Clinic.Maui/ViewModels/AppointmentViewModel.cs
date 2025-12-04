@@ -60,6 +60,7 @@ public class AppointmentViewModel : INotifyPropertyChanged
     //property for search bar
     public string? Query { get; set;}
 
+    /*
     //method for search w query
     public void Search()
     {
@@ -75,11 +76,11 @@ public class AppointmentViewModel : INotifyPropertyChanged
         else
         {
             //query contains a search - update entire appointment list
-            var appointmentDTOs = AppointmentServiceProxy.Current.Search(new Clinic.Library.Data.QueryRequest { Content = Query }).Result;
+            var appointmentDTOs = AppointmentServiceProxy.Current.Search(new Library.Data.QueryRequest { Content = Query }).Result;
             appointments = new ObservableCollection<AddAppointmentViewModel?>(appointmentDTOs.Select(a => new AddAppointmentViewModel(a)));
         }
         NotifyPropertyChanged(nameof(Appointments));
-    }
+    }*/
 
     //properties for visbility of error label
     private bool errorLabelVisibility;

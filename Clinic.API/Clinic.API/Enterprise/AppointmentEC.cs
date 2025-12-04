@@ -73,7 +73,7 @@ public class AppointmentEC
         }
         return appointmentDTO;
     }
-
+    /*
     //return appointment by search query
     public IEnumerable<AppointmentDTO?> Search(string query)
     {
@@ -82,5 +82,5 @@ public class AppointmentEC
             || (ap?.AssignedPhysician?.Name?.ToUpper()?.Contains(query?.ToUpper() ?? string.Empty) ?? false))
             .Select(ap => new AppointmentDTO(ap));
         return queryList;
-    }
+    }*/
 }

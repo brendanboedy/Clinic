@@ -44,10 +44,11 @@ public class AppointmentController : ControllerBase
         return new AppointmentEC().AddOrUpdate(appointment);
     }
 
+    /*
     //return appointment by search query
     [HttpPost("Search")]
     public IEnumerable<AppointmentDTO?> Search(QueryRequest query)
     {
         return new AppointmentEC().Search(query?.Content ?? string.Empty);
-    }
+    }*/
 }

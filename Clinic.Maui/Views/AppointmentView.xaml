@@ -10,6 +10,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
         <!-- SEARCH BAR -->
+        <!--
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
@@ -18,7 +19,7 @@
 
             <Entry Grid.Column="0" Text="{Binding Query}"/>
             <Button Grid.Column="1" Text="Search" Clicked="SearchClicked"/>
-        </Grid>
+        </Grid>-->
         <!-- Grid to list current patients, physicians, and appointments -->
         <!-- patients and physicians display only, cannot edit here -->
         <Grid>

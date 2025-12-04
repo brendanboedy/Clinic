@@ -134,13 +134,12 @@ public class AddAppointmentViewModel : INotifyPropertyChanged
         return true;
     }
     //method to check for existing appointments conflicting
-    public bool Conflicting(AppointmentDTO newAppt, AppointmentDTO existingAppt)
+    public bool Conflicting(AppointmentDTO a, AppointmentDTO b)
     {
         //Astart < Bend && Bstart < Aend
-        if (newAppt.AssignedPhysician == existingAppt.AssignedPhysician
-            && newAppt.AppointmentStartTime <= existingAppt.AppointmentEndTime
-            && existingAppt.AppointmentStartTime <= newAppt.AppointmentEndTime)
-        {
+        if (a.AssignedPhysician.ID == b.AssignedPhysician.ID && 
+            a.AppointmentStartTime < b.AppointmentEndTime &&
+            b.AppointmentStartTime < a.AppointmentEndTime){
             //overlapping appointments returnt rue
             return true;
         }

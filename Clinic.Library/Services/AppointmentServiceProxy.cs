@@ -103,6 +103,7 @@ public class AppointmentServiceProxy
         return existingAppointment;
     }
 
+    /*
     //NONFUNCTIONAL - FIX 
     public async Task<List<AppointmentDTO?>> Search(QueryRequest query)
     {
@@ -111,7 +112,7 @@ public class AppointmentServiceProxy
 
         appointmentList = appointmentsFromServer;
         return appointmentList;
-    }
+    }*/
 
     public AppointmentDTO? GetByID(int ID)
     {
