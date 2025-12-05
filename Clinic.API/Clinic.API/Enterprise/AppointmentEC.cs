@@ -10,13 +10,13 @@ public class AppointmentEC
     //return list of appointments from data base
     public IEnumerable<AppointmentDTO> GetAppointments()
     {
-        return FakeDatabase.Appointments.Select(ap => new AppointmentDTO(ap));
+        return Filebase.Current.Appointments.Select(ap => new AppointmentDTO(ap));
     }
-
+    //FakeDatabase
     //return appointment by id from data base
     public AppointmentDTO? GetByID(int id)
     {
-        var appointment = FakeDatabase.Appointments.FirstOrDefault(ap => ap.ID == id);
+        var appointment = Filebase.Current.Appointments.FirstOrDefault(ap => ap.ID == id);
         return new AppointmentDTO(appointment);
     }
 
@@ -24,10 +24,10 @@ public class AppointmentEC
     public AppointmentDTO? Delete(int id)
     {
         //var toRemove = GetByID(id);
-        var toRemove = FakeDatabase.Appointments.FirstOrDefault(ap => ap.ID == id);
+        var toRemove = Filebase.Current.Appointments.FirstOrDefault(ap => ap.ID == id);
         if (toRemove != null)
         {
-            FakeDatabase.Appointments.Remove(toRemove);
+            Filebase.Current.Appointments.Remove(toRemove);
         }
         return new AppointmentDTO(toRemove);
     }
@@ -44,33 +44,8 @@ public class AppointmentEC
             return null;
         }
 
-        //assign ID for new appointments
-        if (appointmentDTO.ID <= 0)
-        {
-            int maxID = -1;
-            if (FakeDatabase.Appointments.Any())
-            {
-                maxID = FakeDatabase.Appointments.Select(a => a?.ID ?? -1).Max();
-            }
-            else
-            {
-                maxID = 0;
-            }
-            appointmentDTO.ID = ++maxID;
-            //convert appointmentDTO into an appointment
-            FakeDatabase.Appointments.Add(new Appointment(appointmentDTO));
-        }
-        //if appointment already exists, replace w/ new updated appointment
-        else
-        {
-            var apptToCopy = FakeDatabase.Appointments.FirstOrDefault(apt => (apt?.ID ?? 0) == appointmentDTO.ID);
-            if (apptToCopy != null)
-            {
-                var index = FakeDatabase.Appointments.IndexOf(apptToCopy);
-                FakeDatabase.Appointments.RemoveAt(index);
-                FakeDatabase.Appointments.Insert(index, new Appointment(appointmentDTO));
-            }
-        }
+        var appointment = new Appointment(appointmentDTO);
+        appointmentDTO = new AppointmentDTO(Filebase.Current.AddOrUpdate(appointment));
         return appointmentDTO;
     }
     /*
